@@ -7,14 +7,13 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import Logo from "../assets/Head.png";
+import Logo from "../../assets/Head.png";
 
 export default OnboardingItem = ({ item }) => {
   const { width } = useWindowDimensions();
-
   return (
     <View style={[styles.container, { width }]}>
-      <Image source={Logo} style={{ bottom: 35 }} />
+      <Image source={Logo} style={styles.logo} />
 
       <Image
         source={item.image}
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
 
   title: {
     marginTop: 20,
-    fontFamily: 'OpenSans_700Bold',
+    fontFamily: "OpenSans_700Bold",
     alignSelf: "center",
     fontWeight: "bold",
     textAlign: "center",
@@ -54,11 +53,16 @@ const styles = StyleSheet.create({
 
   subtitle: {
     marginTop: 10,
-    fontFamily: 'Poppins_500Medium',
+    fontFamily: "Poppins_500Medium",
     fontWeight: "500",
     maxWidth: 292,
     textAlign: "center",
-    fontSize: 12,
-    color: "#444466"
+    fontSize: 14,
+    color: "#444466",
   },
+
+  logo: {
+    marginTop: -50,
+    marginBottom: 30 
+  }
 });

@@ -1,6 +1,6 @@
-import OnboardingImage1 from "../assets/Onboarding-Image1.png";
-import OnboardingImage2 from "../assets/Onboarding-Image2.png";
-import OnboardingImage3 from "../assets/Onboarding-Image3.png";
+import OnboardingImage1 from "../../assets/Onboarding-Image1.png";
+import OnboardingImage2 from "../../assets/Onboarding-Image2.png";
+import OnboardingImage3 from "../../assets/Onboarding-Image3.png";
 
 export default [
   {

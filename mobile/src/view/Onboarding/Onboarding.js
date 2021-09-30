@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   FlatList,
   SafeAreaView,
@@ -14,7 +13,7 @@ import OnboardingItem from "./OnboardingItem";
 import Paginator from "./Pagination";
 import slide from "./OnboardingScreensData";
 
-export default Onboarding = () => {
+export default Onboarding = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollx = useRef(new Animated.Value(0)).current;
   const slideRef = useRef(null);
@@ -29,12 +28,8 @@ export default Onboarding = () => {
     if (currentIndex < slide.length - 1) {
       slideRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      alert('Página de login');
+      navigation.navigate("AuthScreen");
     }
-  };
-
-  const SkipButton = () => {
-    alert('Pagina de login');
   };
 
   return (
@@ -62,7 +57,7 @@ export default Onboarding = () => {
       </View>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={SkipButton}>
+        <TouchableOpacity onPress={() => { navigation.navigate('AuthScreen') }}>
           <Text style={styles.nextButton}>Skip</Text>
         </TouchableOpacity>
         <Paginator data={slide} scrollx={scrollx} />
