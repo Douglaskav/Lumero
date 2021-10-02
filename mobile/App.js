@@ -1,30 +1,55 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import AppLoading from "expo-app-loading";
-import { View, StyleSheet } from "react-native";
-import { useFonts, Poppins_500Medium } from "@expo-google-fonts/poppins";
-import { OpenSans_700Bold } from "@expo-google-fonts/open-sans";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+} from "@expo-google-fonts/poppins";
+import {
+  OpenSans_700Bold,
+  OpenSans_600SemiBold,
+} from "@expo-google-fonts/open-sans";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AuthScreen from "./src/view/Login/AuthScreen";
 import Onboarding from "./src/view/Onboarding/Onboarding";
+import AuthScreen from "./src/view/Login/AuthScreen";
+import RegisterScreen from "./src/view/Login/Register";
+import PhotoScreen from "./src/view/Login/Photo";
+import CategoryScreen from "./src/view/Login/Category";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
     Poppins_500Medium,
     OpenSans_700Bold,
+    OpenSans_600SemiBold,
   });
 
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-      <NavigationContainer style={styles.container}>
+      <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen
+            name="CategoryScreen"
+            component={CategoryScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PhotoScreen"
+            component={PhotoScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="RegisterScreen"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="AuthScreen"
             component={AuthScreen}
@@ -40,12 +65,3 @@ export default function App() {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

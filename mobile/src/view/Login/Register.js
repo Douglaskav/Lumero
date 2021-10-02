@@ -3,25 +3,70 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
   SafeAreaView,
-  TextInput,
   TouchableOpacity,
   ScrollView,
+  TextInput,
+  StyleSheet,
 } from "react-native";
 
 import Logo from "../../assets/Head.png";
-import Ilustration from "../../assets/Login-Image.png";
 
-export default AuthScreen = () => {
+export default RegisterScreen = () => {
   return (
-    <SafeAreaView centerContent={true} style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         style={{ width: "100%" }}
         showsVerticalScrollIndicator={false}
       >
         <Image source={Logo} style={styles.logo} />
-        <Image source={Ilustration} style={styles.ilustration} />
+
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Name</Text>
+          <TextInput style={styles.input} placeholder="Type your name here." />
+
+          <Text style={styles.label}>Email</Text>
+          <TextInput style={styles.input} placeholder="Type your email here." />
+
+          <View
+            style={{
+              width: "100%",
+              justifyContent: "space-between",
+              flexWrap: "nowrap",
+              flexDirection: "row",
+            }}
+          >
+            <View style={{ width: "46%" }}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry={true}
+                placeholder="Password"
+              />
+            </View>
+            <View style={{ width: "46%" }}>
+              <Text style={styles.label}>Repeat Password</Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry={true}
+                placeholder="Password"
+              />
+            </View>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.button3}>
+          <Text style={styles.button3Text}>Create a new account</Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            width: "100%",
+            margin: 20,
+            borderColor: "#e5e5e5",
+            borderWidth: 1,
+          }}
+        />
 
         <TouchableOpacity style={styles.button1}>
           <Text style={styles.button1Text}>Sign in with Facebook</Text>
@@ -29,30 +74,9 @@ export default AuthScreen = () => {
         <TouchableOpacity style={styles.button2}>
           <Text style={styles.button2Text}>Sign in with Google</Text>
         </TouchableOpacity>
-
-        <View style={{ borderColor: "#E5E5E5", borderWidth: 1 }} />
-
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Type your email here..."
-          />
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            secureTextEntry={true}
-            placeholder="Type your password here..."
-          />
-
-          <TouchableOpacity style={styles.button3}>
-            <Text style={styles.button3Text}>Sign In</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.linkContainer}>
-            <Text style={styles.link}>You don’t have a account ?</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.linkContainer}>
+          <Text style={styles.link}>You don’t have a account ?</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -69,19 +93,12 @@ const styles = StyleSheet.create({
   logo: {
     alignSelf: "center",
   },
-
-  ilustration: {
-    alignSelf: "center",
-    marginTop: 20,
-  },
-
   button1: {
     backgroundColor: "#1877F2",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: 50,
-    marginTop: 20,
     borderRadius: 5,
   },
 
@@ -117,6 +134,7 @@ const styles = StyleSheet.create({
     height: 50,
     paddingLeft: 20,
     borderWidth: 1,
+    fontSize: 12,
     borderRadius: 5,
     fontFamily: "Poppins_400Regular",
     borderColor: "#666",
@@ -127,6 +145,7 @@ const styles = StyleSheet.create({
   label: {
     color: "#333",
     fontFamily: "Poppins_500Medium",
+    fontSize: 12,
     marginBottom: 2,
   },
 
