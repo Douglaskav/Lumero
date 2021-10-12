@@ -8,6 +8,7 @@ import {
 import {
   OpenSans_700Bold,
   OpenSans_600SemiBold,
+  OpenSans_400Regular,
 } from "@expo-google-fonts/open-sans";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -18,6 +19,7 @@ import AuthScreen from "./src/view/Login/AuthScreen";
 import RegisterScreen from "./src/view/Login/Register";
 import PhotoScreen from "./src/view/Login/Photo";
 import CategoryScreen from "./src/view/Login/Category";
+import HomeScreen from "./src/view/Home/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,6 +29,7 @@ export default function App() {
     Poppins_500Medium,
     OpenSans_700Bold,
     OpenSans_600SemiBold,
+    OpenSans_400Regular,
   });
 
   if (!fontsLoaded) {
@@ -36,8 +39,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="CategoryScreen"
-            component={CategoryScreen}
+            name="HomeScreen"
+            component={HomeScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -45,6 +48,12 @@ export default function App() {
             component={PhotoScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="CategoryScreen"
+            component={CategoryScreen}
+            options={{ headerShown: false }}
+          />
+
           <Stack.Screen
             name="RegisterScreen"
             component={RegisterScreen}
