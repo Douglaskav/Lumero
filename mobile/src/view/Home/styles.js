@@ -81,19 +81,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
   },
-
-  starsContainer: {
-    flexDirection: "row",
-    marginTop: 5,
-    marginLeft: 10,
-    alignItems: "center",
-  },
-
-  starText: {
-    color: "#FFC166",
-    marginLeft: 5,
-    fontFamily: "OpenSans_700Bold",
-  },
 });
 
 export default styles;

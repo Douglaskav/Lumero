@@ -8,6 +8,7 @@ import {
   useFonts,
   Poppins_400Regular,
   Poppins_500Medium,
+  Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import {
   OpenSans_700Bold,
@@ -27,6 +28,7 @@ import CategoryScreen from "./src/view/Login/Category";
 import HomeScreen from "./src/view/Home/";
 import ExploreScreen from "./src/view/Explore/";
 import FavoritesScreen from "./src/view/Favorites";
+import ProfileScreen from "./src/view/Profile/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,9 +37,10 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
-    OpenSans_700Bold,
-    OpenSans_600SemiBold,
+    Poppins_700Bold,
     OpenSans_400Regular,
+    OpenSans_600SemiBold,
+    OpenSans_700Bold,
   });
 
   if (!fontsLoaded) {
@@ -67,6 +70,11 @@ export default function App() {
               tabBarInactiveTintColor: "gray",
             })}
           >
+            <Stack.Screen
+              name="ProfileScreen"
+              component={ProfileScreen}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="FavoritesScreen"
               component={FavoritesScreen}

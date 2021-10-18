@@ -24,20 +24,6 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans_400Regular",
   },
 
-  starsContainer: {
-    flexDirection: "row",
-    marginTop: 5,
-    marginLeft: 10,
-    alignItems: "center",
-  },
-
-  starTextBook: {
-    marginLeft: 5,
-    color: "#FFC163",
-    fontFamily: "OpenSans_700Bold",
-    fontSize: 12,
-  },
-
   bookCover: {
     width: 100,
     height: 130,

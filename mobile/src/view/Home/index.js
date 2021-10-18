@@ -7,6 +7,7 @@ import styles from "./styles";
 
 import Cover from "../../assets/qwe_download.jpg";
 import BookList from "../../components/bookList";
+import Stars from "../../components/Stars";
 
 export default HomeScreen = () => {
   return (
@@ -59,10 +60,7 @@ export default HomeScreen = () => {
                   <Text style={{ fontSize: 12 }}>59% Complete</Text>
                 </View>
 
-                <View style={styles.starsContainer}>
-                  <FontAwesome name="star" size={14} color="#FFC166" />
-                  <Text style={styles.starText}>4.8</Text>
-                </View>
+                <Stars />
               </View>
             </View>
           </View>
