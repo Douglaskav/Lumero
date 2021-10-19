@@ -29,6 +29,7 @@ import HomeScreen from "./src/view/Home/";
 import ExploreScreen from "./src/view/Explore/";
 import FavoritesScreen from "./src/view/Favorites";
 import ProfileScreen from "./src/view/Profile/";
+import BookDetail from "./src/view/BookDetail";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,6 +71,11 @@ export default function App() {
               tabBarInactiveTintColor: "gray",
             })}
           >
+            <Stack.Screen
+              name="BookDetail"
+              component={BookDetail}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="ProfileScreen"
               component={ProfileScreen}

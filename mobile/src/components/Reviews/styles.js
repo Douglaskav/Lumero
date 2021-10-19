@@ -3,7 +3,7 @@ const styles = StyleSheet.create({
 	topicTitle: {
 		fontSize: 18,
 		color: "#333",
-		marginBottom: 15,
+		marginBottom: 12,
 		fontFamily: "OpenSans_600SemiBold",
 	},
 
@@ -38,8 +38,10 @@ const styles = StyleSheet.create({
 	reviewMessage: {
 		marginTop: 5,
 		fontFamily: "Poppins_400Regular",
-		fontSize: 12,
-		lineHeight: 18,
+    fontSize: 11,
+    color: "#4C4B5A",
+		fontSize: 10,
+		lineHeight: 17,
 	},
 });
 

@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
   topicTitle: {
     fontSize: 18,
     color: "#333",
-    marginBottom: 15,
     fontFamily: "OpenSans_600SemiBold",
   },
 
