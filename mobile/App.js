@@ -8,6 +8,7 @@ import {
   useFonts,
   Poppins_400Regular,
   Poppins_500Medium,
+  Poppins_600SemiBold,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import {
@@ -31,6 +32,7 @@ import FavoritesScreen from "./src/view/Favorites";
 import ProfileScreen from "./src/view/Profile/";
 import BookDetail from "./src/view/BookDetail";
 import BookPlayer from "./src/view/BookPlayer";
+import BookReader from "./src/view/BookReader";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,6 +41,7 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
+    Poppins_600SemiBold,
     Poppins_700Bold,
     OpenSans_400Regular,
     OpenSans_600SemiBold,
@@ -72,6 +75,11 @@ export default function App() {
               tabBarInactiveTintColor: "gray",
             })}
           >
+            <Stack.Screen
+              name="BookReader"
+              component={BookReader}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="BookPlayer"
               component={BookPlayer}
