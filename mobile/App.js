@@ -30,6 +30,7 @@ import ExploreScreen from "./src/view/Explore/";
 import FavoritesScreen from "./src/view/Favorites";
 import ProfileScreen from "./src/view/Profile/";
 import BookDetail from "./src/view/BookDetail";
+import BookPlayer from "./src/view/BookPlayer";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -71,6 +72,11 @@ export default function App() {
               tabBarInactiveTintColor: "gray",
             })}
           >
+            <Stack.Screen
+              name="BookPlayer"
+              component={BookPlayer}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="BookDetail"
               component={BookDetail}

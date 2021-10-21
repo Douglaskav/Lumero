@@ -43,19 +43,19 @@ const styles = StyleSheet.create({
   categoriesContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: -10,
   },
 
   buttonsContainer: {
     alignItems: "center",
     flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 10,
   },
 
   buttonStartListening: {
     backgroundColor: "#FFC163",
     borderRadius: 5,
-    width: 200,
+    width: 240,
     height: 50,
     padding: 30,
     paddingTop: 10,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "Poppins_500Medium",
     fontSize: 11,
-    marginLeft: 5,
+    marginLeft: 10,
   },
 
   buttonFavorite: {
