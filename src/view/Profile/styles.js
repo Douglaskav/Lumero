@@ -1,81 +1,126 @@
 import { StyleSheet } from "react-native";
+import { width, height, fontSize } from "../../helpers/Dimensions";
 
 const styles = StyleSheet.create({
-  container: {
-    maxWidth: "100%",
-    margin: 30,
-  },
-
-  topicTitle: {
-    fontSize: 18,
-    color: "#333",
-    fontFamily: "OpenSans_600SemiBold",
-  },
-
-  header: {
-    flexDirection: "row",
+  profilePictureContainer: {
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    marginTop: 60,
   },
 
-  pageHeaderTitle: {
-    fontSize: 25,
-    color: "#333",
-    fontFamily: "OpenSans_700Bold",
-  },
-
-  headerIcons: {
-    flexDirection: "row",
-  },
-
-  profileContainer: {
-    marginTop: 20,
-    alignItems: "center",
-  },
-
-  profilePicture: {
+  profilePic: {
     width: 115,
     height: 115,
     borderRadius: 100,
-    marginBottom: 15,
   },
 
-  profileUserName: {
-    fontFamily: "OpenSans_600SemiBold",
-    fontSize: 18,
+  profileUsername: {
+    fontFamily: "NunitoSans_700Bold",
+    fontSize: fontSize(18),
+    color: "#0E091B",
+    textAlign: "center",
+    marginTop: 15,
   },
 
-  geralBooksInfoContainer: {
+  userInfoNumbers: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
     flexDirection: "row",
-    marginTop: 30,
-    marginBottom: 30,
+    justifyContent: "space-around",
+    padding: 15,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
 
-  geralBookInfoItem: {
+  userInfoItem: {
     alignItems: "center",
+    justifyContent: "center",
   },
 
-  geralBookInfoItemWithBars: {
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
-    marginRight: 10,
-    marginLeft: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderColor: "#333",
+  userInfoSeparator: {
+    width: 1,
+    height: 60,
+    backgroundColor: "#ddd",
   },
 
-  geralBookInfoNumber: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: 18,
-    lineHeight: 21,
+  userInfoValue: {
+    fontFamily: "NunitoSans_700Bold",
+    fontSize: fontSize(18),
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  geralBookInfoText: {
-    fontFamily: "Poppins_400Regular",
-    fontSize: 14,
-    lineHeight: 16,
+  colorText1: { color: "#4477FF" },
+  colorText2: { color: "#FF6227" },
+  colorText3: { color: "#FBAA1F" },
+
+  userInfoItemLabel: {
+    fontFamily: "NunitoSans_700Bold",
+    color: "#0E091B",
+    fontSize: fontSize(10),
   },
+
+  topicTitle: {
+    fontFamily: "NunitoSans_700Bold",
+    fontSize: fontSize(16),
+    maxWidth: 150,
+    color: "#0E091B",
+    marginBottom: 5,
+    marginLeft: 30,
+  },
+
+  reviewsWrapper: { width },
+
+  reviewContainer: {
+    margin: 30,
+    marginTop: 10,
+    marginBottom: 50,
+  },
+
+  reviewHeader: { flexDirection: "row" },
+
+  usernameAndStars: { marginLeft: 10 },
+
+  username: {
+    fontFamily: "NunitoSans_700Bold",
+    fontSize: fontSize(14),
+    color: "#0E091B",
+    marginBottom: 5,
+  },
+
+  bookname: {
+    fontFamily: "NunitoSans_600SemiBold",
+    fontSize: fontSize(12),
+    color: "#AAAAAA",
+    marginLeft: 5,
+    marginTop: 3,
+  },
+
+  reviewBody: { marginTop: 15 },
+
+  reviewContent: {
+    fontFamily: "NunitoSans_400Regular",
+    fontSize: fontSize(12),
+    color: "#333333",
+  },
+
+  wrapDot: {
+    position: "absolute",
+    bottom: 0,
+    flexDirection: "row",
+    alignSelf: "center",
+  },
+
+  activeDot: {
+    margin: 3,
+    color: "#4477FF",
+  },
+
+  dot: {
+    margin: 3,
+    color: "#AAA"
+  }
 });
 
 export default styles;

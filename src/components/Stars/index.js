@@ -1,30 +1,31 @@
 import React from "react";
-
 import { View, Text, StyleSheet } from "react-native";
 
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 
-export default Stars = ({ note, color = "#FFC166" }) => {
+export default Stars = ({ reviewValue }) => {
+   const runCallback = (cb) => {
+    return cb();
+  }; 
+
   return (
-    <View style={styles.starsContainer}>
-      <FontAwesome name="star" size={12} color="#FFC166" />
-      <Text style={styles.starTextBook}>4.8</Text>
+    <View style={styles.container}>
+      {
+       runCallback(() => {
+          const row = [];
+          for (var i = 0; i < reviewValue; i++) {
+            row.push(<AntDesign key={i} name="star" style={{marginLeft: 10}} color="#FF8759" />);
+          }
+          return row;
+        })
+      }
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  starsContainer: {
+  container: {
     flexDirection: "row",
-    marginTop: 5,
-    marginLeft: 10,
-    alignItems: "center",
-  },
-
-  starTextBook: {
-    marginLeft: 5,
-    color: "#FFC163",
-    fontFamily: "NunitoSans_700Bold",
-    fontSize: 12,
-  },
+    marginLeft: -10
+  }
 });
