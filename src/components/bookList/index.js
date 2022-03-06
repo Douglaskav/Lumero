@@ -9,10 +9,10 @@ export default BookList = ({ topicTitle }) => {
   return (
     <View>
       <View style={styles.topicContainer}>
-      <Text style={styles.topicTitle}>{topicTitle}</Text>
-      <TouchableOpacity>
-      <Text style={styles.topicLink}>Ver mais</Text>
-      </TouchableOpacity>
+        <Text style={styles.topicTitle}>{topicTitle}</Text>
+        <TouchableOpacity>
+          <Text style={styles.topicLink}>Ver mais</Text>
+        </TouchableOpacity>
       </View>
       {/* Remember turns this into a flat list*/}
       <ScrollView

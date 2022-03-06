@@ -7,7 +7,7 @@ import { fontSize } from "../../helpers/Dimensions";
 
 function Button({ text, backgroundColor, iconName, onPress }) {
 	return (
-		<View style={{ flexDirection: "row" }}>
+		<View style={{ flexDirection: "row", flex: 1 }}>
 			<View style={[styles.iconContainer, { backgroundColor }]}>
 				<AntDesign name={iconName} size={20} color="#fff" />
 			</View>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		fontFamily: "NunitoSans_700Bold",
 		color: "#FFF",
 		marginRight: 40,
-		fontSize: fontSize(11)
+		fontSize: fontSize(10),
 	},
 });
 

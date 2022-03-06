@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
         "@LumeroBooks:passed_by_onboarding"
       );
       const userSigned = await AsyncStorage.getItem("@LumeroBooks:user");
-      console.log(JSON.parse(userSigned));
 
       alreadySawTheOnboarding
         ? setShowOnboarding(false)
@@ -43,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   async function SignIn({ email, password }) {
     const response = await axios({
       method: "POST",
-      url: "http://192.168.0.31:3333/user/auth",
+      url: "http://192.168.0.104:3333/user/auth",
       responseType: "json",
       data: {
         email,
@@ -67,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   async function SignUp({ email, password, username }) {
     const response = await axios({
       method: "POST",
-      url: "http://192.168.0.31:3333/user/create",
+      url: "http://192.168.0.104:3333/user/create",
       responseType: "json",
       data: {
         email,
