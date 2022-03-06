@@ -53,8 +53,8 @@ const HomeTabs = () => (
 const AppRoutes = () => {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
-      <AppStack.Screen name="BookProfile" component={BookProfile} />
       <AppStack.Screen name="Home" component={HomeTabs} />
+      <AppStack.Screen name="BookProfile" component={BookProfile} />
     </AppStack.Navigator>
   );
 };

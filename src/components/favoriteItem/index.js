@@ -15,19 +15,19 @@ export default FavoriteItem = () => {
 						<FontAwesome
 							name="star"
 							size={12}
-							color="#333"
+							color="#FBAA1F"
 							style={{ marginRight: 5 }}
 						/>
 						<Text style={styles.starText}>4.6</Text>
 						<Feather
 							name="download"
 							size={12}
-							color="#333"
+							color="#4274FE"
 							style={{ marginRight: 5, marginLeft: 5 }}
 							onPress={() => alert("Clicou para baixar")}
 						/>
 						<TouchableOpacity onPress={() => alert("Clicou para desfavoritar")}>
-							<FontAwesome name="heart" size={12} color="#333" />
+							<FontAwesome name="heart" size={12} color="#FF4905" />
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -37,14 +37,14 @@ export default FavoriteItem = () => {
 					<FontAwesome5
 						name="book"
 						size={12}
-						color="#333"
+						color="#0E091B"
 						style={{ marginRight: 5 }}
 					/>
 					<Text style={styles.contentInfoText}>879 Pages</Text>
 					<FontAwesome5
 						name="headphones"
 						size={12}
-						color="#333"
+						color="#0E091B"
 						style={{ marginRight: 5 }}
 					/>
 					<Text style={styles.contentInfoText}>3:39:49</Text>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 	starText: {
 		fontFamily: "NunitoSans_700Bold",
 		fontSize: 10,
-		color: "#333",
+		color: "#0E091B",
 	},
 
 	progress: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#333",
+		backgroundColor: "#5481FE",
 	},
 
 	progressText: {
