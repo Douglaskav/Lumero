@@ -9,7 +9,7 @@ import FavoriteItem from "../../components/favoriteItem/";
 
 export default FavoritesScreen = () => {
 	return (
-		<ScrollView>
+		<ScrollView style={{backgroundColor: "#FFF"}}>
 			<View style={styles.container}>
 			<FavoriteItem />
 				<FavoriteItem />

@@ -10,7 +10,7 @@ import PlayerControl from "../../components/PlayerControl";
 
 export default BookPlayer = () => {
   return (
-    <ScrollView showsverticalScrollIndicator={false}>
+    <ScrollView showsverticalScrollIndicator={false} style={{backgroundColor: "#FFF"}}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Feather name="arrow-left" size={24} color="#333" />

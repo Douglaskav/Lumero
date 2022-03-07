@@ -22,13 +22,11 @@ import styles from "./styles";
 
 export default ExploreScreen = () => {
 	return (
-		<ScrollView>
+		<ScrollView style={{ backgroundColor: "#FFF" }}>
 			<View style={styles.container}>
-				        <View style={styles.headerContainer}>
-          <Image source={Logo} alt="Lumero" style={styles.headerLogo} />
-        </View>
-
-
+				<View style={styles.headerContainer}>
+					<Image source={Logo} alt="Lumero" style={styles.headerLogo} />
+				</View>
 
 				<View style={styles.inputContainer}>
 					<TextInput

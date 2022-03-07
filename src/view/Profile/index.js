@@ -13,7 +13,7 @@ import Reviews from "../../components/Reviews";
 
 export default Profile = () => {
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: "#FFF"}}>
       <View style={globalStyles.containerScreen}>
         <View style={styles.profilePictureContainer}>
           <Image source={ProfilePicture} style={styles.profilePic} />

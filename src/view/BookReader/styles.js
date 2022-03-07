@@ -2,11 +2,7 @@ import { StyleSheet } from "react-native";
 import { fontSize } from "../../helpers/Dimensions";
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 30,
-  },
-
-  header: {
+   header: {
     justifyContent: "space-between",
     flexDirection: "row",
     marginBottom: 20,

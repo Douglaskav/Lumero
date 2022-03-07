@@ -16,7 +16,7 @@ const AppRegistry = () => {
 
   return (
     <NavigationContainer>
-      <StatusBar style="light" backgroundColor="#000" />
+      <StatusBar style="dark" backgroundColor="#fff" />
  
       <AuthProvider>
         <Routes />

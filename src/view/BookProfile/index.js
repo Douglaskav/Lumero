@@ -10,12 +10,12 @@ import CoverImg from "../../assets/cover-thumb.png";
 import Button from "../../components/Button";
 import Reviews from "../../components/Reviews";
 
-const BookProfile = () => {
+const BookProfile = ({ navigation }) => {
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: "#FFF"}}>
       <SafeAreaView style={globalStyles.containerScreen}>
         <View style={styles.headerIcons}>
-          <Ionicons name="chevron-back" size={24} color="black" />
+          <Ionicons name="chevron-back" onPress={() => navigation.goBack()} size={24} color="black" />
           <Ionicons name="share-social-outline" size={24} color="black" />
         </View>
       </SafeAreaView>
@@ -52,7 +52,7 @@ const BookProfile = () => {
           marginBottom: 0,
         }}
       >
-        <Button text="Ler Livro" backgroundColor="#FF6227" iconName="play" />
+        <Button text="Ler Livro" onPress={() => navigation.navigate("BookReader")} backgroundColor="#FF6227" iconName="play" />
         <View style={{ marginLeft: 5, marginRight: 5 }} />
         <Button text="Favoritar" backgroundColor="#4274FE" iconName="heart" />
       </View>
