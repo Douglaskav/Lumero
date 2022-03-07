@@ -8,6 +8,7 @@ import Favorites from "../view/Favorites";
 import Player from "../view/BookPlayer";
 import Profile from "../view/Profile";
 import BookProfile from "../view/BookProfile";
+import BookReader from "../view/BookReader";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -53,6 +54,7 @@ const HomeTabs = () => (
 const AppRoutes = () => {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
+      <AppStack.Screen name="BookReader" component={BookReader} />
       <AppStack.Screen name="Home" component={HomeTabs} />
       <AppStack.Screen name="BookProfile" component={BookProfile} />
     </AppStack.Navigator>
