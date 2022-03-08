@@ -4,6 +4,10 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     margin: 30,
   },
+
+  headerLogo: {
+  marginBottom: 20
+  },
   
   headerContainer: {
     marginBottom: 15,

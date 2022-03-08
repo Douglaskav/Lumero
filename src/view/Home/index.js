@@ -6,7 +6,7 @@ import styles from "./styles";
 import Cover from "../../assets/qwe_download.jpg";
 import Logo from "../../assets/LogoScreen.png";
 
-import BookList from "../../components/bookList";
+import BookList from "../../components/BookList";
 
 export default HomeScreen = ({ navigation }) => {
   return (
@@ -15,8 +15,6 @@ export default HomeScreen = ({ navigation }) => {
         <View style={styles.headerContainer}>
           <Image source={Logo} alt="Lumero" style={styles.headerLogo} />
         </View>
-
-        <Text onPress={() => navigation.navigate('BookProfile')}>Book Profile</Text>
 
         <BookList topicTitle="Recomendamos para você" />
         <BookList topicTitle="Livros desta semana" />

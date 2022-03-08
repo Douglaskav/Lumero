@@ -8,7 +8,7 @@ import ProfilePicture from "../../assets/profilepic.jpg";
 import styles from "./styles";
 import globalStyles from "../../styles/";
 
-import BookList from "../../components/bookList";
+import BookList from "../../components/BookList";
 import Reviews from "../../components/Reviews";
 
 export default Profile = () => {

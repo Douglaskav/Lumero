@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-import BookList from "../../components/bookList";
+import BookList from "../../components/BookList";
 
 import B1 from "../../assets/genres/buisness.jpg";
 import B2 from "../../assets/genres/creative.jpg";

@@ -2,10 +2,10 @@ import React from "react";
 
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 
-import BookItem from "../bookItem";
+import BookItem from "../BookItem";
 import styles from "./styles";
 
-export default BookList = ({ topicTitle }) => {
+export default BookList = ({ topicTitle, onPress }) => {
   return (
     <View>
       <View style={styles.topicContainer}>
@@ -14,6 +14,7 @@ export default BookList = ({ topicTitle }) => {
           <Text style={styles.topicLink}>Ver mais</Text>
         </TouchableOpacity>
       </View>
+
       {/* Remember turns this into a flat list*/}
       <ScrollView
         style={styles.booksList}

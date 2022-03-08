@@ -5,7 +5,7 @@ import styles from "./styles";
 
 import { Feather } from "@expo/vector-icons";
 
-import FavoriteItem from "../../components/favoriteItem/";
+import FavoriteItem from "../../components/FavoriteItem/";
 
 export default FavoritesScreen = () => {
 	return (
