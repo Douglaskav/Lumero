@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		color: "#5481FE",
 		marginRight: 5
-	}
+	},
 });
 
 export default styles;

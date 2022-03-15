@@ -5,6 +5,12 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
 
+  bookCover: {
+    width: 90,
+    height: 140,
+    borderRadius: 5,
+  },
+
   bookTitle: {
     color: "#333",
     fontSize: 12,
@@ -19,9 +25,11 @@ const styles = StyleSheet.create({
   },
 
   bookAuthor: {
+    marginTop: 2,
     fontSize: 10,
     color: "#AAA",
     fontFamily: "NunitoSans_400Regular",
+    maxWidth: 100
   },
 });
 

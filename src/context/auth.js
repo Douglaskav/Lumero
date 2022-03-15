@@ -2,7 +2,7 @@ import React, { useEffect, useState, createContext } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import axios from "axios";
+import axios from "../services/api";
 
 const AuthContext = createContext({});
 
@@ -40,15 +40,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   async function SignIn({ email, password }) {
-    const response = await axios({
-      method: "POST",
-      url: "http://192.168.0.31:3333/user/auth",
-      responseType: "json",
-      data: {
-        email,
-        password,
-      },
-    });
+    const response = await axios.post("user/auth", { email, password });
 
     if (!response.data?.error) {
       const { email, username } = response.data.user;
@@ -64,15 +56,10 @@ export const AuthProvider = ({ children }) => {
   }
 
   async function SignUp({ email, password, username }) {
-    const response = await axios({
-      method: "POST",
-      url: "http://192.168.0.31:3333/user/create",
-      responseType: "json",
-      data: {
-        email,
-        username,
-        password,
-      },
+    const response = await axios.post("user/create", {
+      email,
+      username,
+      password,
     });
 
     if (!response.data?.error) {

@@ -2,20 +2,25 @@ import React from "react";
 
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
-import Cover from "../../assets/thumb.png";
 import Stars from "../../components/Stars";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 import styles from "./styles";
 
-export default BookItem = () => {
+export default BookItem = ({ book }) => {
   const navigation = useNavigation();
+
   return (
-    <TouchableOpacity style={styles.bookItem} onPress={() => navigation.navigate("BookProfile")}>
-      <Image source={Cover} style={styles.bookCover} />
-      <Text style={styles.bookTitle} >Harry Potter e a Pedra Filosofal</Text>
+    <TouchableOpacity
+      style={styles.bookItem}
+      onPress={() => navigation.navigate("BookProfile", {
+        itemId: book.id
+      })}
+    >
+      <Image source={{ uri: book.cover }} style={styles.bookCover} resizeMode="stretch" />
+      <Text style={styles.bookTitle} numberOfLines={2}>{book.title}</Text>
       <View style={styles.bookInfo}>
-        <Text style={styles.bookAuthor}>J.K Rowling</Text>
+        <Text style={styles.bookAuthor} numberOfLines={1}>{book.author}</Text>
       </View>
     </TouchableOpacity>
   );

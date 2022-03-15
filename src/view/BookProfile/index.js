@@ -1,6 +1,15 @@
-import React from "react";
-import { ScrollView, SafeAreaView, Text, View, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  ScrollView,
+  SafeAreaView,
+  Text,
+  View,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
+
+import axios from "../../services/api";
 
 import globalStyles from "../../styles/";
 import styles from "./styles";
@@ -10,31 +19,58 @@ import CoverImg from "../../assets/cover-thumb.png";
 import Button from "../../components/Button";
 import Reviews from "../../components/Reviews";
 
-const BookProfile = ({ navigation }) => {
+const BookProfile = ({ route, navigation }) => {
+  const [book, setBook] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { itemId } = route.params;
+
+  useEffect(() => {
+    async function getBookById() {
+      let response = await axios.get(`book/profile/${itemId}`);
+
+      console.log(response.data);
+      setBook(response.data);
+      setLoading(false);
+    }
+
+    getBookById();
+  }, []);
+
+  if (loading) return <ActivityIndicator size="large" color="#666" />;
+
   return (
-    <ScrollView style={{backgroundColor: "#FFF"}}>
+    <ScrollView style={{ backgroundColor: "#FFF" }}>
       <SafeAreaView style={globalStyles.containerScreen}>
         <View style={styles.headerIcons}>
-          <Ionicons name="chevron-back" onPress={() => navigation.goBack()} size={24} color="black" />
+          <Ionicons
+            name="chevron-back"
+            onPress={() => navigation.goBack()}
+            size={24}
+            color="black"
+          />
           <Ionicons name="share-social-outline" size={24} color="black" />
         </View>
       </SafeAreaView>
       <View style={styles.containerThumbTitleAuthor}>
-        <Image source={CoverImg} />
-        <Text style={styles.bookTitle}>Harry Potter e a Pedra Filosofal</Text>
-        <Text style={styles.bookAuthor}>J.K Rowling</Text>
+        <Image
+          source={{ uri: book.cover }}
+          style={{ width: 145, height: 220, borderRadius: 5 }}
+          resizeMode="stretch"
+        />
+        <Text style={styles.bookTitle}>{book.title}</Text>
+        <Text style={styles.bookAuthor}>{book.author}</Text>
       </View>
 
       <View style={styles.bookInfoNumbers}>
         <View style={styles.bookInfoItem}>
           <Feather name="clock" size={18} color="#4274FE" />
-          <Text style={styles.bookInfoText}>2:43:39</Text>
+          <Text style={styles.bookInfoText}>{book.time}</Text>
         </View>
 
         <View style={styles.userInfoSeparator} />
         <View style={styles.bookInfoItem}>
           <Feather name="book-open" size={18} color="#FF6227" />
-          <Text style={styles.bookInfoText}>456 Pgs</Text>
+          <Text style={styles.bookInfoText}>{book.pages}</Text>
         </View>
 
         <View style={styles.userInfoSeparator} />
@@ -52,7 +88,12 @@ const BookProfile = ({ navigation }) => {
           marginBottom: 0,
         }}
       >
-        <Button text="Ler Livro" onPress={() => navigation.navigate("BookReader")} backgroundColor="#FF6227" iconName="play" />
+        <Button
+          text="Ler Livro"
+          onPress={() => navigation.navigate("BookReader")}
+          backgroundColor="#FF6227"
+          iconName="play"
+        />
         <View style={{ marginLeft: 5, marginRight: 5 }} />
         <Button text="Favoritar" backgroundColor="#4274FE" iconName="heart" />
       </View>
@@ -61,11 +102,8 @@ const BookProfile = ({ navigation }) => {
 
       <View style={styles.synopsysContainer}>
         <Text style={styles.topicTitle}>Sinopse</Text>
-        <Text style={styles.synopsysText}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
+        <Text style={styles.synopsysText} numberOfLines={6}>
+          {book.synopsis}
         </Text>
 
         <View style={styles.categories}>
