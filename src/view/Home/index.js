@@ -2,15 +2,12 @@ import React from "react";
 import {
   View,
   SafeAreaView,
-  Text,
   Image,
-  ScrollView,
-  ActivityIndicator,
+  ScrollView
 } from "react-native";
 
 import styles from "./styles";
 
-import Cover from "../../assets/qwe_download.jpg";
 import Logo from "../../assets/LogoScreen.png";
 
 import BookList from "../../components/BookList";

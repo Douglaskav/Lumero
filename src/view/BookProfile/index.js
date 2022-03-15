@@ -27,8 +27,9 @@ const BookProfile = ({ route, navigation }) => {
   useEffect(() => {
     async function getBookById() {
       let response = await axios.get(`book/profile/${itemId}`);
+      let strWithoutBrackendAndComas = response.data.categories.replace(/[^\w ]/g, '');
+      response.data.categories =  strWithoutBrackendAndComas.split(' ')
 
-      console.log(response.data);
       setBook(response.data);
       setLoading(false);
     }
@@ -106,26 +107,17 @@ const BookProfile = ({ route, navigation }) => {
           {book.synopsis}
         </Text>
 
+    
         <View style={styles.categories}>
-          <View style={styles.categorie}>
-            <Text style={styles.categorieText}>Classico</Text>
-          </View>
-          <View style={styles.categorie}>
-            <Text style={styles.categorieText}>Magia</Text>
-          </View>
-          <View style={styles.categorie}>
-            <Text style={styles.categorieText}>Ficção</Text>
-          </View>
-          <View style={styles.categorie}>
-            <Text style={styles.categorieText}>Aventura</Text>
-          </View>
-          <View style={styles.categorie}>
-            <Text style={styles.categorieText}>Fantasy</Text>
-          </View>
-          <View style={styles.categorie}>
-            <Text style={styles.categorieText}>Trilogia</Text>
-          </View>
+          {book.categories.map((item, index) => {
+            return (
+              <View style={styles.categorie} key={index}>
+                <Text style={styles.categorieText}>{item}</Text>
+              </View>
+            );
+          })}
         </View>
+   
       </View>
 
       <Reviews />
