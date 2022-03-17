@@ -1,35 +1,82 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import Slider from "@react-native-community/slider";
 import { Feather, AntDesign } from "@expo/vector-icons";
+
+import axios from "../../services/api";
+import { Audio } from "expo-av";
 
 import styles from "./styles";
 import BookCover from "../../assets/cover.png";
 import PlayerControl from "../../components/PlayerControl";
 
-export default BookPlayer = () => {
+export default BookPlayer = ({ route, navigation }) => {
+  const [book, setBook] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const { itemId } = route.params;
+
+  useEffect(() => {
+    async function getBookById() {
+      let response = await axios.get(`book/profile/${itemId}`);
+
+      setBook(response.data);
+      setLoading(false);
+    }
+
+    async function loadAudio() {
+      let audioObj = new Audio.Sound();
+
+      try {
+        await audioObj.loadAsync({
+          uri: "https://ia802506.us.archive.org/2/items/letters_brides_0709_librivox/letters_of_two_brides_01_debalzac_64kb.mp3",
+        });
+      } catch (error) {
+        console.log("ERROR", error);
+      }
+    }
+
+    getBookById();
+  }, []);
+
+  if (loading) return <ActivityIndicator size="large" color="#666" />;
+
   return (
-    <ScrollView showsverticalScrollIndicator={false} style={{backgroundColor: "#FFF"}}>
+    <ScrollView
+      showsverticalScrollIndicator={false}
+      style={{ backgroundColor: "#FFF" }}
+    >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Feather name="arrow-left" size={24} color="#333" />
+          <Feather
+            name="arrow-left"
+            size={24}
+            color="#333"
+            onPress={() => navigation.goBack()}
+          />
           <Feather name="heart" size={24} color="#333" />
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Image
-            source={BookCover}
-            alt="Harry Potter e a Pedra Filosofal"
+            source={{ uri: book.cover }}
+            alt={book.title}
             style={{ width: 230, height: 350, borderRadius: 5 }}
+            resizeMode="stretch"
           />
         </View>
 
         <View style={styles.bookTitleAndAuthorContainer}>
-          <Text style={styles.bookAuthor}>J.K Rowling</Text>
-          <Text style={styles.bookTitle}>
-            Harry Potter and the Goblet of Fire
-          </Text>
+          <Text style={styles.bookAuthor}>{book.author}</Text>
+          <Text style={styles.bookTitle}>{book.title}</Text>
         </View>
 
         <View style={styles.trackContainer}>
@@ -42,8 +89,8 @@ export default BookPlayer = () => {
             maximumTrackTintColor="#AAAAAA"
           />
           <View style={styles.trackInfoContainer}>
-            <Text style={styles.trackCurrentTime}>21:30</Text>
-            <Text style={styles.trackLeftTime}>-59:30</Text>
+            <Text style={styles.trackCurrentTime}>00:00</Text>
+            <Text style={styles.trackLeftTime}>-00:00</Text>
           </View>
         </View>
 

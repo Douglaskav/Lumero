@@ -1,10 +1,9 @@
 import React from "react";
- 
+
 import Home from "../../view/Home";
 import Explore from "../../view/Explore";
 import Favorites from "../../view/Favorites";
-import Player from "../../view/BookPlayer";
-import Profile from "../../view/Profile";   
+import Profile from "../../view/Profile";
 
 import { Feather } from "@expo/vector-icons";
 
@@ -22,8 +21,6 @@ const HomeTabs = () => (
           iconName = "home";
         } else if (route.name === "Explore") {
           iconName = "search";
-        } else if (route.name === "Player") {
-          iconName = "headphones";
         } else if (route.name === "Favorites") {
           iconName = "heart";
         } else if (route.name === "Profile") {
@@ -41,10 +38,9 @@ const HomeTabs = () => (
   >
     <AppBottomTab.Screen name="HomeTabs" component={Home} />
     <AppBottomTab.Screen name="Explore" component={Explore} />
-    <AppBottomTab.Screen name="Player" component={Player} />
     <AppBottomTab.Screen name="Favorites" component={Favorites} />
     <AppBottomTab.Screen name="Profile" component={Profile} />
   </AppBottomTab.Navigator>
 );
 
-export default HomeTabs; 
+export default HomeTabs;

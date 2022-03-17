@@ -27,8 +27,11 @@ const BookProfile = ({ route, navigation }) => {
   useEffect(() => {
     async function getBookById() {
       let response = await axios.get(`book/profile/${itemId}`);
-      let strWithoutBrackendAndComas = response.data.categories.replace(/[^\w ]/g, '');
-      response.data.categories =  strWithoutBrackendAndComas.split(' ')
+      let strWithoutBrackendAndComas = response.data.categories.replace(
+        /[^\w ]/g,
+        ""
+      );
+      response.data.categories = strWithoutBrackendAndComas.split(" ");
 
       setBook(response.data);
       setLoading(false);
@@ -91,7 +94,11 @@ const BookProfile = ({ route, navigation }) => {
       >
         <Button
           text="Ler Livro"
-          onPress={() => navigation.navigate("BookReader")}
+          onPress={() =>
+            navigation.navigate("BookPlayer", {
+              itemId: book.id,
+            })
+          }
           backgroundColor="#FF6227"
           iconName="play"
         />
@@ -107,7 +114,6 @@ const BookProfile = ({ route, navigation }) => {
           {book.synopsis}
         </Text>
 
-    
         <View style={styles.categories}>
           {book.categories.map((item, index) => {
             return (
@@ -117,7 +123,6 @@ const BookProfile = ({ route, navigation }) => {
             );
           })}
         </View>
-   
       </View>
 
       <Reviews />
