@@ -18,11 +18,40 @@ import styles from "./styles";
 import BookCover from "../../assets/cover.png";
 import PlayerControl from "../../components/PlayerControl";
 
+import { play, pause, resume } from "../../misc/audioController";
+
 export default BookPlayer = ({ route, navigation }) => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
+  const [playbackObj, setPlaybackObj] = useState({});
+  const [audioObj, setAudioObj] = useState(null);
+  const [currentAudio, setCurrentAudio] = useState(null);
 
   const { itemId } = route.params;
+
+  async function handleAudioPress(audio) {
+    // First time
+    if (audioObj === null) {
+      let playbackObj = new Audio.Sound();
+
+      const status = await play(playbackObj, audio.uri);
+
+      setPlaybackObj(playbackObj);
+      setCurrentAudio(audio);
+      setAudioObj(status);
+    } else if (audioObj.isLoaded && audioObj.isPlaying) {
+      const status = await pause(playbackObj);
+      setAudioObj(status);
+    } else if (
+      audioObj.isLoaded &&
+      !audioObj.isPlaying &&
+      currentAudio.id === audio.id
+    ) {
+      const status = await resume(playbackObj);
+
+      setAudioObj(status);
+    }
+  }
 
   useEffect(() => {
     async function getBookById() {
@@ -30,18 +59,6 @@ export default BookPlayer = ({ route, navigation }) => {
 
       setBook(response.data);
       setLoading(false);
-    }
-
-    async function loadAudio() {
-      let audioObj = new Audio.Sound();
-
-      try {
-        await audioObj.loadAsync({
-          uri: "https://ia802506.us.archive.org/2/items/letters_brides_0709_librivox/letters_of_two_brides_01_debalzac_64kb.mp3",
-        });
-      } catch (error) {
-        console.log("ERROR", error);
-      }
     }
 
     getBookById();
@@ -96,12 +113,21 @@ export default BookPlayer = ({ route, navigation }) => {
 
         <View style={styles.playerContainer}>
           <AntDesign name="fastbackward" size={24} color="#3066FF" />
-          <AntDesign
-            name="pausecircle"
-            size={48}
-            color="#3066FF"
-            style={{ marginLeft: 20, marginRight: 20 }}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              handleAudioPress({
+                id: 1,
+                uri: "https://ia802506.us.archive.org/2/items/letters_brides_0709_librivox/letters_of_two_brides_01_debalzac_64kb.mp3",
+              })
+            }
+          >
+            <AntDesign
+              name="play"
+              size={48}
+              color="#3066FF"
+              style={{ marginLeft: 20, marginRight: 20 }}
+            />
+          </TouchableOpacity>
           <AntDesign name="fastforward" size={24} color="#3066FF" />
         </View>
       </View>
