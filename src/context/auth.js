@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState, createContext, useContext } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -90,5 +90,11 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+
+  return context;
+}
 
 export default AuthContext;

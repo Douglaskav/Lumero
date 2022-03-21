@@ -7,16 +7,20 @@ import BookReader from "../view/BookReader";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { PlayerProvider } from "../context/musicPlayer";
+
 const AppStack = createNativeStackNavigator();
 
 const AppRoutes = () => {
   return (
-    <AppStack.Navigator screenOptions={{ headerShown: false }}>
-      <AppStack.Screen name="Home" component={HomeTabs} />
-      <AppStack.Screen name="BookProfile" component={BookProfile} />
-      <AppStack.Screen name="BookPlayer" component={BookPlayer} />
-      <AppStack.Screen name="BookReader" component={BookReader} />
-    </AppStack.Navigator>
+    <PlayerProvider>
+      <AppStack.Navigator screenOptions={{ headerShown: false }}>
+        <AppStack.Screen name="Home" component={HomeTabs} />
+        <AppStack.Screen name="BookProfile" component={BookProfile} />
+        <AppStack.Screen name="BookPlayer" component={BookPlayer} />
+        <AppStack.Screen name="BookReader" component={BookReader} />
+      </AppStack.Navigator>
+    </PlayerProvider>
   );
 };
 

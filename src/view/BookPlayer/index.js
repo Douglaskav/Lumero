@@ -12,53 +12,40 @@ import Slider from "@react-native-community/slider";
 import { Feather, AntDesign } from "@expo/vector-icons";
 
 import axios from "../../services/api";
-import { Audio } from "expo-av";
 
 import styles from "./styles";
-import BookCover from "../../assets/cover.png";
-import PlayerControl from "../../components/PlayerControl";
 
-import { play, pause, resume } from "../../misc/audioController";
+import { usePlayer } from "../../context/musicPlayer";
 
 export default BookPlayer = ({ route, navigation }) => {
+  const { loadAudioAsync, playAudioAsync, audioStats, onDraggingTrackerAudio } =
+    usePlayer();
+
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
-  const [playbackObj, setPlaybackObj] = useState({});
-  const [audioObj, setAudioObj] = useState(null);
-  const [currentAudio, setCurrentAudio] = useState(null);
 
   const { itemId } = route.params;
 
-  async function handleAudioPress(audio) {
-    // First time
-    if (audioObj === null) {
-      let playbackObj = new Audio.Sound();
-
-      const status = await play(playbackObj, audio.uri);
-
-      setPlaybackObj(playbackObj);
-      setCurrentAudio(audio);
-      setAudioObj(status);
-    } else if (audioObj.isLoaded && audioObj.isPlaying) {
-      const status = await pause(playbackObj);
-      setAudioObj(status);
-    } else if (
-      audioObj.isLoaded &&
-      !audioObj.isPlaying &&
-      currentAudio.id === audio.id
-    ) {
-      const status = await resume(playbackObj);
-
-      setAudioObj(status);
-    }
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
   }
 
   useEffect(() => {
     async function getBookById() {
       let response = await axios.get(`book/profile/${itemId}`);
 
+      // Esse audio sera buscado no banco de dados pelo itemId
+
+      let audio = {
+        id: 1,
+        uri: "https://ia802506.us.archive.org/2/items/letters_brides_0709_librivox/letters_of_two_brides_09_debalzac.mp3",
+      };
+
       setBook(response.data);
       setLoading(false);
+      await loadAudioAsync(audio);
     }
 
     getBookById();
@@ -100,33 +87,41 @@ export default BookPlayer = ({ route, navigation }) => {
           <Slider
             style={{ width: 320, height: 40 }}
             minimumValue={0}
-            maximumValue={1}
+            value={audioStats.positionMillis}
+            maximumValue={audioStats.durationMillis}
+            onValueChange={(millis) => onDraggingTrackerAudio(millis)}
             minimumTrackTintColor="#3066FF"
             thumbTintColor="#3066FF"
             maximumTrackTintColor="#AAAAAA"
           />
           <View style={styles.trackInfoContainer}>
-            <Text style={styles.trackCurrentTime}>00:00</Text>
-            <Text style={styles.trackLeftTime}>-00:00</Text>
+            <Text style={styles.trackCurrentTime}>
+              {millisToMinutesAndSeconds(audioStats.positionMillis)}
+            </Text>
+            <Text style={styles.trackLeftTime}>
+              {millisToMinutesAndSeconds(audioStats.durationMillis)}
+            </Text>
           </View>
         </View>
 
         <View style={styles.playerContainer}>
           <AntDesign name="fastbackward" size={24} color="#3066FF" />
-          <TouchableOpacity
-            onPress={() =>
-              handleAudioPress({
-                id: 1,
-                uri: "https://ia802506.us.archive.org/2/items/letters_brides_0709_librivox/letters_of_two_brides_01_debalzac_64kb.mp3",
-              })
-            }
-          >
-            <AntDesign
-              name="play"
-              size={48}
-              color="#3066FF"
-              style={{ marginLeft: 20, marginRight: 20 }}
-            />
+          <TouchableOpacity onPress={playAudioAsync}>
+            {audioStats.isPlaying ? (
+              <AntDesign
+                name="pausecircle"
+                size={48}
+                color="#3066FF"
+                style={{ marginLeft: 20, marginRight: 20 }}
+              />
+            ) : (
+              <AntDesign
+                name="play"
+                size={48}
+                color="#3066FF"
+                style={{ marginLeft: 20, marginRight: 20 }}
+              />
+            )}
           </TouchableOpacity>
           <AntDesign name="fastforward" size={24} color="#3066FF" />
         </View>

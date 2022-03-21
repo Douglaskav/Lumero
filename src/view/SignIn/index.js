@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import {
 	View,
@@ -18,10 +18,10 @@ import InputField from "../../components/TextInput";
 import Button from "../../components/Button";
 import SeparatorSign from "../../components/SeparatorSign";
 
-import AuthContext from "../../context/auth";
+import { useAuth } from "../../context/auth";
 
 const SignUpScreen = ({ navigation }) => {
-	const { SignIn } = useContext(AuthContext);
+	const { SignIn } = useAuth();
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
