@@ -8,6 +8,12 @@ export const PlayerProvider = ({ children }) => {
   const [playbackObj, setPlaybackObj] = useState({});
   const [audioObj, setAudioObj] = useState({});
 
+  useEffect(() => {
+    console.log("Yes");
+    let playbackObject = new Audio.Sound();
+    setPlaybackObj(playbackObject);
+  }, []);
+
   async function onPlaybackStatusUpdate() {
     setAudioObj(await playbackObj.getStatusAsync());
   }
@@ -17,17 +23,17 @@ export const PlayerProvider = ({ children }) => {
   }
 
   async function loadAudioAsync({ uri }) {
-    let playbackObject = new Audio.Sound();
-    let audioObject = await playbackObject.loadAsync({ uri });
+    let audioObject = await playbackObj.loadAsync({ uri });
 
-    setPlaybackObj(playbackObject);
     setAudioObj(audioObject);
+    await setupTrackerBar();
+  }
 
-    return audioObj;
+  async function setupTrackerBar() {
+    await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
   }
 
   async function playAudioAsync() {
-    await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
     audioObj.isPlaying
       ? setAudioObj(await playbackObj.setStatusAsync({ shouldPlay: false }))
       : setAudioObj(await playbackObj.playAsync());

@@ -36,16 +36,11 @@ export default BookPlayer = ({ route, navigation }) => {
     async function getBookById() {
       let response = await axios.get(`book/profile/${itemId}`);
 
-      // Esse audio sera buscado no banco de dados pelo itemId
-
-      let audio = {
-        id: 1,
-        uri: "https://ia802506.us.archive.org/2/items/letters_brides_0709_librivox/letters_of_two_brides_09_debalzac.mp3",
-      };
+      let audioFiles = JSON.parse(response.data.audio_files);
 
       setBook(response.data);
+      await loadAudioAsync(audioFiles[0]);
       setLoading(false);
-      await loadAudioAsync(audio);
     }
 
     getBookById();
@@ -72,8 +67,7 @@ export default BookPlayer = ({ route, navigation }) => {
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Image
             source={{ uri: book.cover }}
-            alt={book.title}
-            style={{ width: 230, height: 350, borderRadius: 5 }}
+            style={styles.bookCover}
             resizeMode="stretch"
           />
         </View>

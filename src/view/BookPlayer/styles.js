@@ -4,7 +4,7 @@ import { fontSize } from "../../helpers/Dimensions";
 const styles = StyleSheet.create({
   container: {
     margin: 30,
-    marginTop: 50
+    marginTop: 50,
   },
 
   header: {
@@ -18,10 +18,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  bookCover: {
-    width: 180,
-    height: 250,
-  },
+  bookCover: { width: 230, height: 350, borderRadius: 5 },
 
   bookTitleAndAuthorContainer: {
     marginTop: 20,
@@ -49,25 +46,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 20,
     marginRight: 20,
-    marginTop: -10
+    marginTop: -10,
   },
 
   trackCurrentTime: {
     fontSize: fontSize(10),
     fontFamily: "NunitoSans_600SemiBold",
-    color: "#3066FF"
+    color: "#3066FF",
   },
 
   trackLeftTime: {
     fontSize: fontSize(10),
     fontFamily: "NunitoSans_600SemiBold",
-    color: "#AAA"
+    color: "#AAA",
   },
 
   playerContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 });
 
