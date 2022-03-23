@@ -5,14 +5,8 @@ import { Audio } from "expo-av";
 const PlayerContext = createContext({});
 
 export const PlayerProvider = ({ children }) => {
-  const [playbackObj, setPlaybackObj] = useState({});
+  const [playbackObj, setPlaybackObj] = useState();
   const [audioObj, setAudioObj] = useState({});
-
-  useEffect(() => {
-    console.log("Yes");
-    let playbackObject = new Audio.Sound();
-    setPlaybackObj(playbackObject);
-  }, []);
 
   async function onPlaybackStatusUpdate() {
     setAudioObj(await playbackObj.getStatusAsync());
@@ -23,10 +17,19 @@ export const PlayerProvider = ({ children }) => {
   }
 
   async function loadAudioAsync({ uri }) {
-    let audioObject = await playbackObj.loadAsync({ uri });
+    if (!Boolean(playbackObj)) {
+      let playbackObject = new Audio.Sound();
+      let audioObject = await playbackObject.loadAsync({ uri });
 
-    setAudioObj(audioObject);
-    await setupTrackerBar();
+      setPlaybackObj(playbackObject);
+      setAudioObj(audioObject);
+    } else {
+      await playbackObj.stopAsync();
+      await playbackObj.unloadAsync();
+      let audioObject = await playbackObj.loadAsync({ uri });
+
+      setAudioObj(audioObject);
+    }
   }
 
   async function setupTrackerBar() {
