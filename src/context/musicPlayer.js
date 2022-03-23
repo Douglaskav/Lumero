@@ -5,35 +5,38 @@ import { Audio } from "expo-av";
 const PlayerContext = createContext({});
 
 export const PlayerProvider = ({ children }) => {
-  const [playbackObj, setPlaybackObj] = useState();
+  const [playbackObj, setPlaybackObj] = useState({});
   const [audioObj, setAudioObj] = useState({});
+
+  useEffect(() => {
+    let playbackObject = new Audio.Sound();
+    setPlaybackObj(playbackObject);
+  }, []);
+
+  async function onDraggingTrackerAudio(millis) {
+    await playbackObj.setPositionAsync(millis);
+  }
 
   async function onPlaybackStatusUpdate() {
     setAudioObj(await playbackObj.getStatusAsync());
   }
 
-  async function onDraggingTrackerAudio(millies) {
-    await playbackObj.setPositionAsync(millies);
+  async function loadAudioAsync(uri) {
+    let audioObject = await playbackObj.loadAsync({ uri });
+    setAudioObj(audioObject);
   }
 
-  async function loadAudioAsync({ uri }) {
-    if (!Boolean(playbackObj)) {
-      let playbackObject = new Audio.Sound();
-      let audioObject = await playbackObject.loadAsync({ uri });
+  async function initAudioSystem({ uri }) {
+    const { isLoaded: alreadyHaveAnSoundBeenPlaying } =
+      await playbackObj.getStatusAsync();
 
-      setPlaybackObj(playbackObject);
-      setAudioObj(audioObject);
-    } else {
-      await playbackObj.stopAsync();
-      await playbackObj.unloadAsync();
-      let audioObject = await playbackObj.loadAsync({ uri });
+    if (alreadyHaveAnSoundBeenPlaying) await playbackObj.unloadAsync();
 
-      setAudioObj(audioObject);
-    }
-  }
+    setInterval(() => {
+      onPlaybackStatusUpdate();
+    }, 1000);
 
-  async function setupTrackerBar() {
-    await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+    await loadAudioAsync(uri);
   }
 
   async function playAudioAsync() {
@@ -45,7 +48,7 @@ export const PlayerProvider = ({ children }) => {
   return (
     <PlayerContext.Provider
       value={{
-        loadAudioAsync,
+        initAudioSystem,
         playAudioAsync,
         audioStats: audioObj,
         onDraggingTrackerAudio,

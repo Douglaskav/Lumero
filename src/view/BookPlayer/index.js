@@ -18,8 +18,12 @@ import styles from "./styles";
 import { usePlayer } from "../../context/musicPlayer";
 
 export default BookPlayer = ({ route, navigation }) => {
-  const { loadAudioAsync, playAudioAsync, audioStats, onDraggingTrackerAudio } =
-    usePlayer();
+  const {
+    initAudioSystem,
+    playAudioAsync,
+    audioStats,
+    onDraggingTrackerAudio,
+  } = usePlayer();
 
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
@@ -39,7 +43,7 @@ export default BookPlayer = ({ route, navigation }) => {
       let audioFiles = JSON.parse(response.data.audio_files);
 
       setBook(response.data);
-      await loadAudioAsync(audioFiles[0]);
+      await initAudioSystem(audioFiles[0]);
       setLoading(false);
     }
 
