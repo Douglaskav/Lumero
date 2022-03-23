@@ -13,20 +13,7 @@ export const PlayerProvider = ({ children }) => {
     setPlaybackObj(playbackObject);
   }, []);
 
-  async function onDraggingTrackerAudio(millis) {
-    await playbackObj.setPositionAsync(millis);
-  }
-
-  async function onPlaybackStatusUpdate() {
-    setAudioObj(await playbackObj.getStatusAsync());
-  }
-
-  async function loadAudioAsync(uri) {
-    let audioObject = await playbackObj.loadAsync({ uri });
-    setAudioObj(audioObject);
-  }
-
-  async function initAudioSystem({ uri }) {
+  async function initAudioSystem(audioFiles) {
     const { isLoaded: alreadyHaveAnSoundBeenPlaying } =
       await playbackObj.getStatusAsync();
 
@@ -36,7 +23,20 @@ export const PlayerProvider = ({ children }) => {
       onPlaybackStatusUpdate();
     }, 1000);
 
-    await loadAudioAsync(uri);
+    await loadAudioAsync(audioFiles[0]);
+  }
+
+  async function loadAudioAsync({ uri }) {
+    let audioObject = await playbackObj.loadAsync({ uri });
+    setAudioObj(audioObject);
+  }
+
+  async function onDraggingTrackerBarAudio(millis) {
+    await playbackObj.setPositionAsync(millis);
+  }
+
+  async function onPlaybackStatusUpdate() {
+    setAudioObj(await playbackObj.getStatusAsync());
   }
 
   async function playAudioAsync() {
@@ -51,7 +51,7 @@ export const PlayerProvider = ({ children }) => {
         initAudioSystem,
         playAudioAsync,
         audioStats: audioObj,
-        onDraggingTrackerAudio,
+        onDraggingTrackerBarAudio,
       }}
     >
       {children}

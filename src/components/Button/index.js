@@ -7,17 +7,19 @@ import { fontSize } from "../../helpers/Dimensions";
 
 function Button({ text, backgroundColor, iconName, onPress }) {
 	return (
-		<View style={{ flexDirection: "row", flex: 1 }}>
+		<TouchableOpacity
+			style={{ flexDirection: "row", flex: 1 }}
+			onPress={onPress}
+		>
 			<View style={[styles.iconContainer, { backgroundColor }]}>
 				<AntDesign name={iconName} size={20} color="#fff" />
 			</View>
-			<TouchableOpacity
-				onPress={onPress}
+			<View
 				style={[styles.container, { backgroundColor: backgroundColor + "ef" }]}
 			>
 				<Text style={styles.buttonText}>{text}</Text>
-			</TouchableOpacity>
-		</View>
+			</View>
+		</TouchableOpacity>
 	);
 }
 

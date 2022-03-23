@@ -9,10 +9,13 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Slider from "@react-native-community/slider";
-import { Feather, AntDesign } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import axios from "../../services/api";
 
+import Shimmer from "react-native-shimmer";
+
+import globalStyles from "../../styles/";
 import styles from "./styles";
 
 import { usePlayer } from "../../context/musicPlayer";
@@ -22,7 +25,7 @@ export default BookPlayer = ({ route, navigation }) => {
     initAudioSystem,
     playAudioAsync,
     audioStats,
-    onDraggingTrackerAudio,
+    onDraggingTrackerBarAudio,
   } = usePlayer();
 
   const [book, setBook] = useState({});
@@ -43,7 +46,7 @@ export default BookPlayer = ({ route, navigation }) => {
       let audioFiles = JSON.parse(response.data.audio_files);
 
       setBook(response.data);
-      await initAudioSystem(audioFiles[0]);
+      await initAudioSystem(audioFiles);
       setLoading(false);
     }
 
@@ -57,15 +60,16 @@ export default BookPlayer = ({ route, navigation }) => {
       showsverticalScrollIndicator={false}
       style={{ backgroundColor: "#FFF" }}
     >
-      <View style={styles.container}>
+      <View style={globalStyles.containerScreen}>
         <View style={styles.header}>
-          <Feather
-            name="arrow-left"
+          <Ionicons
+            name="chevron-back"
             size={24}
             color="#333"
             onPress={() => navigation.goBack()}
           />
-          <Feather name="heart" size={24} color="#333" />
+
+          <Ionicons name="heart-outline" size={24} color="#333" />
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -77,8 +81,8 @@ export default BookPlayer = ({ route, navigation }) => {
         </View>
 
         <View style={styles.bookTitleAndAuthorContainer}>
-          <Text style={styles.bookAuthor}>{book.author}</Text>
           <Text style={styles.bookTitle}>{book.title}</Text>
+          <Text style={styles.bookAuthor}>{book.author}</Text>
         </View>
 
         <View style={styles.trackContainer}>
@@ -87,7 +91,7 @@ export default BookPlayer = ({ route, navigation }) => {
             minimumValue={0}
             value={audioStats.positionMillis}
             maximumValue={audioStats.durationMillis}
-            onValueChange={(millis) => onDraggingTrackerAudio(millis)}
+            onValueChange={(millis) => onDraggingTrackerBarAudio(millis)}
             minimumTrackTintColor="#3066FF"
             thumbTintColor="#3066FF"
             maximumTrackTintColor="#AAAAAA"

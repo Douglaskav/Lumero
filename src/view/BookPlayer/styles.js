@@ -2,15 +2,11 @@ import { StyleSheet } from "react-native";
 import { fontSize } from "../../helpers/Dimensions";
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 30,
-    marginTop: 50,
-  },
-
   header: {
     justifyContent: "space-between",
     flexDirection: "row",
-    marginBottom: 20,
+    marginBottom: 40,
+    marginTop: 10,
   },
 
   bookCoverContainer: {
@@ -32,6 +28,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "center",
     color: "#0E091B",
+    marginTop: 10,
   },
 
   bookAuthor: {
@@ -39,6 +36,11 @@ const styles = StyleSheet.create({
     fontSize: fontSize(10),
     color: "#AAA",
     textAlign: "center",
+    marginTop: 5,
+  },
+
+  trackContainer: {
+    marginTop: 20,
   },
 
   trackInfoContainer: {
