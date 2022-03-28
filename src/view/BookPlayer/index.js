@@ -8,12 +8,12 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
+
 import Slider from "@react-native-community/slider";
+
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import axios from "../../services/api";
-
-import Shimmer from "react-native-shimmer";
 
 import globalStyles from "../../styles/";
 import styles from "./styles";
@@ -26,6 +26,9 @@ export default BookPlayer = ({ route, navigation }) => {
     playAudioAsync,
     audioStats,
     onDraggingTrackerBarAudio,
+    currentChapter,
+    NextChapter,
+    PrevChapter,
   } = usePlayer();
 
   const [book, setBook] = useState({});
@@ -82,7 +85,9 @@ export default BookPlayer = ({ route, navigation }) => {
 
         <View style={styles.bookTitleAndAuthorContainer}>
           <Text style={styles.bookTitle}>{book.title}</Text>
-          <Text style={styles.bookAuthor}>{book.author}</Text>
+          <Text style={styles.bookAuthor}>
+            {book.author} | Capitulo {currentChapter.cap}
+          </Text>
         </View>
 
         <View style={styles.trackContainer}>
@@ -107,7 +112,9 @@ export default BookPlayer = ({ route, navigation }) => {
         </View>
 
         <View style={styles.playerContainer}>
-          <AntDesign name="fastbackward" size={24} color="#3066FF" />
+          <TouchableOpacity onPress={PrevChapter}>
+            <AntDesign name="fastbackward" size={24} color="#3066FF" />
+          </TouchableOpacity>
           <TouchableOpacity onPress={playAudioAsync}>
             {audioStats.isPlaying ? (
               <AntDesign
@@ -125,7 +132,9 @@ export default BookPlayer = ({ route, navigation }) => {
               />
             )}
           </TouchableOpacity>
-          <AntDesign name="fastforward" size={24} color="#3066FF" />
+          <TouchableOpacity onPress={NextChapter}>
+            <AntDesign name="fastforward" size={24} color="#3066FF" />
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

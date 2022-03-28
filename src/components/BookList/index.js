@@ -25,14 +25,13 @@ export default BookList = ({ topicTitle }) => {
       setBookList(response.data);
       setLoading(false);
     }
+
     getBookDataList();
   }, []);
 
   if (loading) return <ActivityIndicator size="large" color="#666" />;
 
-  const renderItem = ({ item }) => (
-    <BookItem book={item} />
-  );
+  const renderItem = ({ item }) => <BookItem book={item} />;
 
   return (
     <View>

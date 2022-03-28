@@ -7,6 +7,8 @@ const PlayerContext = createContext({});
 export const PlayerProvider = ({ children }) => {
   const [playbackObj, setPlaybackObj] = useState({});
   const [audioObj, setAudioObj] = useState({});
+  const [audioFiles, setAudioFiles] = useState([]);
+  const [currentChapter, setCurrentChapter] = useState({});
 
   useEffect(() => {
     let playbackObject = new Audio.Sound();
@@ -23,12 +25,14 @@ export const PlayerProvider = ({ children }) => {
       onPlaybackStatusUpdate();
     }, 1000);
 
+    setAudioFiles(audioFiles);
     await loadAudioAsync(audioFiles[0]);
   }
 
-  async function loadAudioAsync({ uri }) {
-    let audioObject = await playbackObj.loadAsync({ uri });
+  async function loadAudioAsync(chapter) {
+    let audioObject = await playbackObj.loadAsync({ uri: chapter.uri });
     setAudioObj(audioObject);
+    setCurrentChapter(chapter);
   }
 
   async function onDraggingTrackerBarAudio(millis) {
@@ -45,6 +49,39 @@ export const PlayerProvider = ({ children }) => {
       : setAudioObj(await playbackObj.playAsync());
   }
 
+  async function audioHasBeenFinish() {}
+
+  async function NextChapter() {
+    // Verificar se nao e o utlimo item.
+    if (currentChapter.cap === audioFiles.length) {
+      alert("Este e o fim do livro");
+      return;
+    }
+
+    await playbackObj.unloadAsync();
+
+    let chapter = audioFiles[currentChapter.cap];
+
+    let audioObject = await playbackObj.loadAsync(
+      { uri: chapter.uri },
+      { shouldPlay: true }
+    );
+    setAudioObj(audioObject);
+    setCurrentChapter(chapter);
+  }
+
+  async function PrevChapter() {
+    await playbackObj.unloadAsync();
+
+    let chapter = audioFiles[currentChapter.cap - 2];
+    let audioObject = await playbackObj.loadAsync(
+      { uri: chapter.uri },
+      { shouldPlay: true }
+    );
+    setAudioObj(audioObject);
+    setCurrentChapter(chapter);
+  }
+
   return (
     <PlayerContext.Provider
       value={{
@@ -52,6 +89,9 @@ export const PlayerProvider = ({ children }) => {
         playAudioAsync,
         audioStats: audioObj,
         onDraggingTrackerBarAudio,
+        currentChapter,
+        NextChapter,
+        PrevChapter,
       }}
     >
       {children}
