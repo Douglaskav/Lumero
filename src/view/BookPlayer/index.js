@@ -136,6 +136,16 @@ export default BookPlayer = ({ route, navigation }) => {
             <AntDesign name="fastforward" size={24} color="#3066FF" />
           </TouchableOpacity>
         </View>
+
+        <Text
+          onPress={() => {
+            navigation.navigate("BookReader", {
+              itemId: book.id,
+            });
+          }}
+        >
+          Ler o livro
+        </Text>
       </View>
     </ScrollView>
   );

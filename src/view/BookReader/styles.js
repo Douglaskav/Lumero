@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
-import { fontSize } from "../../helpers/Dimensions";
+import { height, fontSize } from "../../helpers/Dimensions";
 
 const styles = StyleSheet.create({
-   header: {
+  header: {
     justifyContent: "space-between",
     flexDirection: "row",
     marginBottom: 20,
-    marginTop: 20
+    marginTop: 10,
   },
 
   capContainer: {
@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 
+  textContainer: {
+    height: height - 140,
+  },
+
   textBook: {
     fontFamily: "NunitoSans_400Regular",
     fontSize: 12,
@@ -28,13 +32,14 @@ const styles = StyleSheet.create({
   },
 
   trackPlayerContainer: {
-    marginTop: 30,
-    marginBottom: 30,
-    marginLeft: 0,
-    marginRight: 0,
+    width: "100%",
+    position: "absolute",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 15,
+    bottom: 0,
   },
 
   bookInfoPlayer: {
@@ -42,32 +47,31 @@ const styles = StyleSheet.create({
   },
 
   titleAndAuthorContainer: { marginLeft: 10 },
-  
+
   bookTitle: {
     fontFamily: "NunitoSans_700Bold",
     color: "#0E091B",
     fontSize: fontSize(10),
-    marginBottom: 5
+    marginBottom: 5,
   },
 
   bookAuthor: {
     fontFamily: "NunitoSans_400Regular",
     color: "#4274FE",
-    fontSize: fontSize(9)
+    fontSize: fontSize(9),
   },
 
-  buttonsControlContainer: { flexDirection: "row", alignItems: "center"},
+  buttonsControlContainer: { flexDirection: "row", alignItems: "center" },
 
   playButtonContainer: {
     width: 45,
     height: 45,
-    marginLeft: 5, 
+    marginLeft: 5,
     marginRight: 5,
     borderRadius: 30,
-    backgroundColor: "#4274FE",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 export default styles;

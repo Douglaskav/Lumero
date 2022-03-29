@@ -19,11 +19,10 @@ export const PlayerProvider = ({ children }) => {
     const { isLoaded: alreadyHaveAnSoundBeenPlaying } =
       await playbackObj.getStatusAsync();
 
-    if (alreadyHaveAnSoundBeenPlaying) await playbackObj.unloadAsync();
-
-    setInterval(() => {
-      onPlaybackStatusUpdate();
-    }, 1000);
+    if (alreadyHaveAnSoundBeenPlaying) {
+      await playbackObj.setOnPlaybackStatusUpdate();
+      await playbackObj.unloadAsync();
+    }
 
     setAudioFiles(audioFiles);
     await loadAudioAsync(audioFiles[0]);
@@ -33,13 +32,20 @@ export const PlayerProvider = ({ children }) => {
     let audioObject = await playbackObj.loadAsync({ uri: chapter.uri });
     setAudioObj(audioObject);
     setCurrentChapter(chapter);
+
+    await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
   }
 
   async function onDraggingTrackerBarAudio(millis) {
     await playbackObj.setPositionAsync(millis);
   }
 
-  async function onPlaybackStatusUpdate() {
+  async function onPlaybackStatusUpdate({ didJustFinish }) {
+    if (didJustFinish) {
+      alert("O livro terminou!");
+      return;
+    }
+
     setAudioObj(await playbackObj.getStatusAsync());
   }
 
@@ -49,7 +55,20 @@ export const PlayerProvider = ({ children }) => {
       : setAudioObj(await playbackObj.playAsync());
   }
 
-  async function audioHasBeenFinish() {}
+  async function changeChapter(indexPosition) {
+    await playbackObj.setOnPlaybackStatusUpdate();
+    await playbackObj.unloadAsync();
+
+    let chapter = audioFiles[indexPosition];
+
+    let audioObject = await playbackObj.loadAsync(
+      { uri: chapter.uri },
+      { shouldPlay: true }
+    );
+    await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+    setAudioObj(audioObject);
+    setCurrentChapter(chapter);
+  }
 
   async function NextChapter() {
     // Verificar se nao e o utlimo item.
@@ -58,28 +77,11 @@ export const PlayerProvider = ({ children }) => {
       return;
     }
 
-    await playbackObj.unloadAsync();
-
-    let chapter = audioFiles[currentChapter.cap];
-
-    let audioObject = await playbackObj.loadAsync(
-      { uri: chapter.uri },
-      { shouldPlay: true }
-    );
-    setAudioObj(audioObject);
-    setCurrentChapter(chapter);
+    changeChapter(currentChapter.cap);
   }
 
   async function PrevChapter() {
-    await playbackObj.unloadAsync();
-
-    let chapter = audioFiles[currentChapter.cap - 2];
-    let audioObject = await playbackObj.loadAsync(
-      { uri: chapter.uri },
-      { shouldPlay: true }
-    );
-    setAudioObj(audioObject);
-    setCurrentChapter(chapter);
+    changeChapter(currentChapter.cap - 2);
   }
 
   return (
