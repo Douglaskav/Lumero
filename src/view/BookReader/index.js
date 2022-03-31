@@ -18,8 +18,6 @@ import axios from "axios";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
-import Cover from "../../assets/cover.png";
-
 import { usePlayer } from "../../context/musicPlayer";
 
 export default BookReader = ({ route, navigation }) => {
@@ -40,7 +38,6 @@ export default BookReader = ({ route, navigation }) => {
       let response = await api.get(`book/profile/${itemId}`);
 
       let { data } = await axios.get(response.data.content);
-      console.log(data);
 
       response.data.text = data;
       setBook(response.data);

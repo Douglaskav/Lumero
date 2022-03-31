@@ -71,6 +71,8 @@ export const PlayerProvider = ({ children }) => {
   }
 
   async function NextChapter() {
+    console.log(currentChapter);
+
     // Verificar se nao e o utlimo item.
     if (currentChapter.cap === audioFiles.length) {
       alert("Este e o fim do livro");

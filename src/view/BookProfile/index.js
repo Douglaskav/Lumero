@@ -14,10 +14,13 @@ import axios from "../../services/api";
 import globalStyles from "../../styles/";
 import styles from "./styles";
 
-import CoverImg from "../../assets/cover-thumb.png";
-
 import Button from "../../components/Button";
 import Reviews from "../../components/Reviews";
+
+// Usar todos os getBookById no context
+// Quando o usuário apertar para pular o capitulo ele vai:
+// Não deixar ele apertar de novo
+// Aparecer um loading
 
 const BookProfile = ({ route, navigation }) => {
   const [book, setBook] = useState([]);

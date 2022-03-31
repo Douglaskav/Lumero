@@ -2,7 +2,6 @@ import React from "react";
 
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
-import Stars from "../../components/Stars";
 import { useNavigation } from "@react-navigation/native";
 
 import styles from "./styles";
