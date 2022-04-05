@@ -18,7 +18,7 @@ import axios from "axios";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
-import { usePlayer } from "../../context/musicPlayer";
+import { usePlayer } from "../../contexts/MusicPlayer";
 
 export default BookReader = ({ route, navigation }) => {
   const {

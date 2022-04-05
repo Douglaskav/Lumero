@@ -1,7 +1,7 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
 
-import { useAuth } from "../context/auth";
+import { useAuth } from "../contexts/auth";
 
 import Onboarding from "../view/Onboarding";
 import AppRoutes from "./app.routes";

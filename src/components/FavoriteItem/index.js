@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-import { Feather, FontAwesome5, FontAwesome, Entypo } from "@expo/vector-icons";
-import Cover from "../../assets/Cover.png";
+import { Feather, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 
 export default FavoriteItem = () => {
 	return (

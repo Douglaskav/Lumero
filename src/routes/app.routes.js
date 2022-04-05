@@ -7,7 +7,7 @@ import BookReader from "../view/BookReader";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { PlayerProvider } from "../context/musicPlayer";
+import { PlayerProvider } from "../contexts/MusicPlayer";
 
 const AppStack = createNativeStackNavigator();
 

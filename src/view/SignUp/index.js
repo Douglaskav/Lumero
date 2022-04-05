@@ -18,7 +18,7 @@ import InputField from "../../components/TextInput";
 import Button from "../../components/Button";
 import SeparatorSign from "../../components/SeparatorSign";
 
-import AuthContext from "../../context/auth";
+import AuthContext from "../../contexts/auth";
 
 const SignUpScreen = ({ navigation }) => {
 	const { SignUp } = useContext(AuthContext);

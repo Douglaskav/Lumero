@@ -14,7 +14,7 @@ import Paginator from "./Pagination";
 import slide from "./OnboardingScreensData";
 import globalStyles from "../../styles/";
 
-import AuthContext from "../../context/auth";
+import AuthContext from "../../contexts/auth";
 
 export default Onboarding = ({ navigation }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);

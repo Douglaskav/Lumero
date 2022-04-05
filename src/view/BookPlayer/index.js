@@ -18,7 +18,9 @@ import axios from "../../services/api";
 import globalStyles from "../../styles/";
 import styles from "./styles";
 
-import { usePlayer } from "../../context/musicPlayer";
+import { usePlayer } from "../../contexts/MusicPlayer";
+
+import millisToMinutesAndSeconds from "../../helpers/MillisToMinutesAndSeconds";
 
 export default BookPlayer = ({ route, navigation }) => {
   const {
@@ -26,21 +28,12 @@ export default BookPlayer = ({ route, navigation }) => {
     playAudioAsync,
     audioStats,
     onDraggingTrackerBarAudio,
-    currentChapter,
-    NextChapter,
-    PrevChapter,
   } = usePlayer();
 
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(true);
 
   const { itemId } = route.params;
-
-  function millisToMinutesAndSeconds(millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-  }
 
   useEffect(() => {
     async function getBookById() {
@@ -85,9 +78,7 @@ export default BookPlayer = ({ route, navigation }) => {
 
         <View style={styles.bookTitleAndAuthorContainer}>
           <Text style={styles.bookTitle}>{book.title}</Text>
-          <Text style={styles.bookAuthor}>
-            {book.author} | Capitulo {currentChapter.cap}
-          </Text>
+          <Text style={styles.bookAuthor}>{book.author}</Text>
         </View>
 
         <View style={styles.trackContainer}>
@@ -112,7 +103,7 @@ export default BookPlayer = ({ route, navigation }) => {
         </View>
 
         <View style={styles.playerContainer}>
-          <TouchableOpacity onPress={PrevChapter}>
+          <TouchableOpacity>
             <AntDesign name="fastbackward" size={24} color="#3066FF" />
           </TouchableOpacity>
           <TouchableOpacity onPress={playAudioAsync}>
@@ -132,20 +123,10 @@ export default BookPlayer = ({ route, navigation }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity onPress={NextChapter}>
+          <TouchableOpacity>
             <AntDesign name="fastforward" size={24} color="#3066FF" />
           </TouchableOpacity>
         </View>
-
-        <Text
-          onPress={() => {
-            navigation.navigate("BookReader", {
-              itemId: book.id,
-            });
-          }}
-        >
-          Ler o livro
-        </Text>
       </View>
     </ScrollView>
   );

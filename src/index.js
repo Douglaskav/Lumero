@@ -7,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import Routes from "./routes";
 import FontLoader from "./helpers/FontLoader";
-import { AuthProvider } from "./context/auth";
+import { AuthProvider } from "./contexts/auth";
 
 const AppRegistry = () => {
   const fontsLoaded = FontLoader();
