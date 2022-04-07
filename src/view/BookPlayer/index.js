@@ -27,6 +27,7 @@ export default BookPlayer = ({ route, navigation }) => {
     initAudioSystem,
     playAudioAsync,
     audioStats,
+    currentChapter,
     onDraggingTrackerBarAudio,
   } = usePlayer();
 
@@ -78,7 +79,7 @@ export default BookPlayer = ({ route, navigation }) => {
 
         <View style={styles.bookTitleAndAuthorContainer}>
           <Text style={styles.bookTitle}>{book.title}</Text>
-          <Text style={styles.bookAuthor}>{book.author}</Text>
+          <Text style={styles.bookAuthor}>{book.author} | Capitulo {currentChapter.cap}</Text>
         </View>
 
         <View style={styles.trackContainer}>

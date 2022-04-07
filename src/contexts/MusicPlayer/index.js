@@ -9,6 +9,9 @@ const PlayerContext = createContext({});
 export const PlayerProvider = ({ children }) => {
   const [playbackObj, setPlaybackObj] = useState({});
   const [audioStats, setAudioStats] = useState({});
+  const [currentChapter, setCurrentChapter] = useState({});
+
+  let audioFiles = [];
 
   useEffect(() => {
     let playbackObject = new Audio.Sound();
@@ -18,12 +21,15 @@ export const PlayerProvider = ({ children }) => {
   async function initAudioSystem(soundFiles) {
     await checkIfAlreadyHaveAnAudioBeenPlaying(playbackObj);
 
+    audioFiles = soundFiles;
     await loadAudioAsync(soundFiles[0]);
     await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
   }
 
   async function loadAudioAsync(audio) {
     let audioObject = await playbackObj.loadAsync({ uri: audio.uri });
+
+    setCurrentChapter(audio);
     setAudioStats(audioObject);
   }
 
@@ -31,9 +37,23 @@ export const PlayerProvider = ({ children }) => {
     await playbackObj.setPositionAsync(millis);
   }
 
-  async function onPlaybackStatusUpdate({ didJustFinish }) {
-    if (didJustFinish) {
-      alert("O livro terminou!");
+  async function onPlaybackStatusUpdate(playbackObject) {
+    if (playbackObject.didJustFinish) {
+      setCurrentChapter(async (currentChapter) => {
+        await playbackObj.setOnPlaybackStatusUpdate();
+        await playbackObj.unloadAsync();
+
+        let new_chapter = audioFiles[currentChapter.cap];
+        let audioObject = await playbackObj.loadAsync(
+          { uri: new_chapter.uri },
+          { shouldPlay: true }
+        );
+        await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+
+        setAudioStats(audioObject);
+        setCurrentChapter(new_chapter);
+      });
+
       return;
     }
 
@@ -52,6 +72,7 @@ export const PlayerProvider = ({ children }) => {
         initAudioSystem,
         playAudioAsync,
         audioStats,
+        currentChapter,
         onDraggingTrackerBarAudio,
       }}
     >
