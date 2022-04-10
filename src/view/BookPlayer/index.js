@@ -28,6 +28,7 @@ export default BookPlayer = ({ route, navigation }) => {
     playAudioAsync,
     audioStats,
     currentChapter,
+    NextChapter,
     onDraggingTrackerBarAudio,
   } = usePlayer();
 
@@ -79,7 +80,9 @@ export default BookPlayer = ({ route, navigation }) => {
 
         <View style={styles.bookTitleAndAuthorContainer}>
           <Text style={styles.bookTitle}>{book.title}</Text>
-          <Text style={styles.bookAuthor}>{book.author} | Capitulo {currentChapter.cap}</Text>
+          <Text style={styles.bookAuthor}>
+            {book.author} | Capitulo {currentChapter.cap}
+          </Text>
         </View>
 
         <View style={styles.trackContainer}>
@@ -124,7 +127,7 @@ export default BookPlayer = ({ route, navigation }) => {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={NextChapter}>
             <AntDesign name="fastforward" size={24} color="#3066FF" />
           </TouchableOpacity>
         </View>

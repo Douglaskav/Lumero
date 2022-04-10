@@ -1,6 +1,9 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 
-import { checkIfAlreadyHaveAnAudioBeenPlaying } from "./modules";
+import {
+  checkIfAlreadyHaveAnAudioBeenPlaying,
+  clearPlaybackObject,
+} from "./modules";
 
 import { Audio } from "expo-av";
 
@@ -40,8 +43,7 @@ export const PlayerProvider = ({ children }) => {
   async function onPlaybackStatusUpdate(playbackObject) {
     if (playbackObject.didJustFinish) {
       setCurrentChapter(async (currentChapter) => {
-        await playbackObj.setOnPlaybackStatusUpdate();
-        await playbackObj.unloadAsync();
+        await clearPlaybackObject(playbackObj);
 
         let new_chapter = audioFiles[currentChapter.cap];
         let audioObject = await playbackObj.loadAsync(
@@ -60,6 +62,22 @@ export const PlayerProvider = ({ children }) => {
     setAudioStats(await playbackObj.getStatusAsync());
   }
 
+  async function NextChapter() {
+    await clearPlaybackObject(playbackObj);
+
+    let new_chapter = audioFiles[currentChapter.cap];
+
+    console.log(audioFiles, currentChapter.cap);
+    let audioObject = await playbackObj.loadAsync(
+      { uri: new_chapter.uri },
+      { shouldPlay: true }
+    );
+    await playbackObj.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+
+    setAudioStats(audioObject);
+    setCurrentChapter(new_chapter);
+  }
+
   async function playAudioAsync() {
     audioStats.isPlaying
       ? setAudioStats(await playbackObj.setStatusAsync({ shouldPlay: false }))
@@ -73,6 +91,7 @@ export const PlayerProvider = ({ children }) => {
         playAudioAsync,
         audioStats,
         currentChapter,
+        NextChapter,
         onDraggingTrackerBarAudio,
       }}
     >
