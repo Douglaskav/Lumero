@@ -28,9 +28,28 @@ export const PlayerProvider = ({ children }) => {
     await loadAudioAsync(soundFiles[0]);
 
     let trackerTimer = setInterval(async () => {
-      setAudioStats(await playbackObj.getStatusAsync());
-    }, 1000)
-  
+      let playbackStatus = await playbackObj.getStatusAsync();
+
+      if (playbackStatus.durationMillis === playbackStatus.positionMillis) {
+        setCurrentChapter(async (currentChapter) => {
+          await clearPlaybackObject(playbackObj);
+
+          let new_chapter = audioFiles[currentChapter.cap];
+          let audioObject = await playbackObj.loadAsync(
+            { uri: new_chapter.uri },
+            { shouldPlay: true }
+          );
+
+          setAudioStats(audioObject);
+          setCurrentChapter(new_chapter);
+        });
+
+
+        return;
+      }
+
+      setAudioStats(playbackStatus);
+    }, 1000);
   }
 
   async function loadAudioAsync(audio) {
