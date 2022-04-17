@@ -13,46 +13,58 @@ export const PlayerProvider = ({ children }) => {
   const [playbackObj, setPlaybackObj] = useState({});
   const [audioStats, setAudioStats] = useState({});
   const [currentChapter, setCurrentChapter] = useState({});
-
-  let audioFiles = [];
+  const [audioFiles, setAudioFiles] = useState([]);
 
   useEffect(() => {
     let playbackObject = new Audio.Sound();
     setPlaybackObj(playbackObject);
   }, []);
 
-  async function initAudioSystem(soundFiles) {
-    await checkIfAlreadyHaveAnAudioBeenPlaying(playbackObj);
+  async function skipChapter(soundFiles) {
+    setCurrentChapter(async (currentChapter) => {
+      await clearPlaybackObject(playbackObj);
 
-    audioFiles = soundFiles;
-    await loadAudioAsync(soundFiles[0]);
+      let new_chapter = soundFiles[currentChapter.cap];
 
-    let trackerTimer = setInterval(async () => {
+      if (new_chapter) {
+        let audioObject = await playbackObj.loadAsync(
+          { uri: new_chapter.uri },
+          { shouldPlay: true }
+        );
+
+        setAudioStats(audioObject);
+        setCurrentChapter(new_chapter);
+      }
+    });
+
+  return;
+  }
+
+  async function trackerTriggerInterval(soundFiles) {
+    return setInterval(async () => {
       let playbackStatus = await playbackObj.getStatusAsync();
 
       if (playbackStatus.durationMillis === playbackStatus.positionMillis) {
-        setCurrentChapter(async (currentChapter) => {
-          await clearPlaybackObject(playbackObj);
-
-          let new_chapter = audioFiles[currentChapter.cap];
-          let audioObject = await playbackObj.loadAsync(
-            { uri: new_chapter.uri },
-            { shouldPlay: true }
-          );
-
-          setAudioStats(audioObject);
-          setCurrentChapter(new_chapter);
-        });
-
-
-        return;
+        await skipChapter(soundFiles);  
       }
 
       setAudioStats(playbackStatus);
     }, 1000);
+
+  }
+
+  async function initAudioSystem(soundFiles) {
+    await checkIfAlreadyHaveAnAudioBeenPlaying(playbackObj, trackerTimer);
+    await loadAudioAsync(soundFiles[0]);
+
+    setAudioFiles(soundFiles);
+
+    let trackerTimer = trackerTriggerInterval(soundFiles);
+    console.log(trackerTimer);
   }
 
   async function loadAudioAsync(audio) {
+
     let audioObject = await playbackObj.loadAsync({ uri: audio.uri });
 
     setCurrentChapter(audio);
@@ -64,9 +76,7 @@ export const PlayerProvider = ({ children }) => {
   }
 
   async function NextChapter() {
-    let new_chapter = audioFiles[currentChapter.cap];
-
-    console.log(audioFiles, currentChapter.cap);
+    await skipChapter(audioFiles);
   }
 
   async function playAudioAsync() {

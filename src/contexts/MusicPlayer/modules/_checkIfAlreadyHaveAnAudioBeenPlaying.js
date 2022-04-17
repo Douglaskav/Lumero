@@ -1,8 +1,14 @@
 import clearPlaybackObject from "./_clearPlaybackObject";
 
-export default async function verifyIfHaveAnSoundBeenPlaying(playbackObj) {
+export default async function verifyIfHaveAnSoundBeenPlaying(playbackObj, interval = null) {
   const { isLoaded: alreadyHasASoundPlaying } =
     await playbackObj.getStatusAsync();
 
-  if (alreadyHasASoundPlaying) await clearPlaybackObject(playbackObj);
+    console.log(interval);
+
+  if (alreadyHasASoundPlaying) {
+    clearInterval(interval);
+    await clearPlaybackObject(playbackObj);
+
+  }
 }
