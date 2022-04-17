@@ -37,7 +37,32 @@ export const PlayerProvider = ({ children }) => {
       }
     });
 
-  return;
+    return;
+  }
+
+  async function backChapter(soundFiles) {
+    if (currentChapter.cap > 1) {
+      setCurrentChapter(async (currentChapter) => {
+        await clearPlaybackObject(playbackObj);
+
+        let new_chapter = soundFiles[currentChapter.cap - 2];
+
+        if (new_chapter) {
+          let audioObject = await playbackObj.loadAsync(
+            { uri: new_chapter.uri },
+            { shouldPlay: true }
+          );
+
+          setAudioStats(audioObject);
+          setCurrentChapter(new_chapter);
+        }
+
+        return;
+      });
+    } else {
+      alert("Você ainda está no primeiro capítulo");
+      return;
+    }
   }
 
   async function trackerTriggerInterval(soundFiles) {
@@ -45,12 +70,11 @@ export const PlayerProvider = ({ children }) => {
       let playbackStatus = await playbackObj.getStatusAsync();
 
       if (playbackStatus.durationMillis === playbackStatus.positionMillis) {
-        await skipChapter(soundFiles);  
+        await skipChapter(soundFiles);
       }
 
       setAudioStats(playbackStatus);
     }, 1000);
-
   }
 
   async function initAudioSystem(soundFiles) {
@@ -60,11 +84,9 @@ export const PlayerProvider = ({ children }) => {
     setAudioFiles(soundFiles);
 
     let trackerTimer = trackerTriggerInterval(soundFiles);
-    console.log(trackerTimer);
   }
 
   async function loadAudioAsync(audio) {
-
     let audioObject = await playbackObj.loadAsync({ uri: audio.uri });
 
     setCurrentChapter(audio);
@@ -77,6 +99,10 @@ export const PlayerProvider = ({ children }) => {
 
   async function NextChapter() {
     await skipChapter(audioFiles);
+  }
+
+  async function PrevChapter() {
+    await backChapter(audioFiles);
   }
 
   async function playAudioAsync() {
@@ -93,6 +119,7 @@ export const PlayerProvider = ({ children }) => {
         audioStats,
         currentChapter,
         NextChapter,
+        PrevChapter,
         onDraggingTrackerBarAudio,
       }}
     >
