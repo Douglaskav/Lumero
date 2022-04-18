@@ -28,8 +28,8 @@ export default BookPlayer = ({ route, navigation }) => {
     playAudioAsync,
     audioStats,
     currentChapter,
-    NextChapter,
-PrevChapter,
+    skipChapter,
+    backChapter,
     onDraggingTrackerBarAudio,
   } = usePlayer();
 
@@ -108,7 +108,7 @@ PrevChapter,
         </View>
 
         <View style={styles.playerContainer}>
-          <TouchableOpacity onPress={PrevChapter}>
+          <TouchableOpacity onPress={backChapter}>
             <AntDesign name="fastbackward" size={24} color="#3066FF" />
           </TouchableOpacity>
           <TouchableOpacity onPress={playAudioAsync}>
@@ -128,7 +128,7 @@ PrevChapter,
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity onPress={NextChapter}>
+          <TouchableOpacity onPress={skipChapter}>
             <AntDesign name="fastforward" size={24} color="#3066FF" />
           </TouchableOpacity>
         </View>

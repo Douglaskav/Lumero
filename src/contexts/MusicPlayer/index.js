@@ -1,4 +1,10 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+} from "react";
 
 import {
   checkIfAlreadyHaveAnAudioBeenPlaying,
@@ -15,12 +21,53 @@ export const PlayerProvider = ({ children }) => {
   const [currentChapter, setCurrentChapter] = useState({});
   const [audioFiles, setAudioFiles] = useState([]);
 
+  let timer = useRef();
+
   useEffect(() => {
     let playbackObject = new Audio.Sound();
     setPlaybackObj(playbackObject);
   }, []);
 
-  async function skipChapter(soundFiles) {
+  async function initAudioSystem(soundFiles) {
+    await checkIfAlreadyHaveAnAudioBeenPlaying(playbackObj, timer);
+    await loadAudioAsync(soundFiles[0]);
+
+    timer.current = await trackerTriggerInterval(soundFiles);
+    setAudioFiles(soundFiles);
+  }
+
+  async function loadAudioAsync(audio) {
+    let audioObject = await playbackObj.loadAsync({ uri: audio.uri });
+
+    setCurrentChapter(audio);
+    setAudioStats(audioObject);
+  }
+
+  async function trackerTriggerInterval(soundFiles) {
+    return setInterval(async () => {
+      let playbackStatus = await playbackObj.getStatusAsync();
+
+      if (playbackStatus.durationMillis === playbackStatus.positionMillis) {
+        await NextChapter(soundFiles);
+      }
+
+      setAudioStats(playbackStatus);
+    }, 1000);
+  }
+
+  async function onDraggingTrackerBarAudio(millis) {
+    await playbackObj.setPositionAsync(millis);
+  }
+
+  async function skipChapter() {
+    await NextChapter(audioFiles);
+  }
+
+  async function backChapter() {
+    await PrevChapter(audioFiles);
+  }
+
+  async function NextChapter(soundFiles) {
     setCurrentChapter(async (currentChapter) => {
       await clearPlaybackObject(playbackObj);
 
@@ -40,7 +87,7 @@ export const PlayerProvider = ({ children }) => {
     return;
   }
 
-  async function backChapter(soundFiles) {
+  async function PrevChapter(soundFiles) {
     if (currentChapter.cap > 1) {
       setCurrentChapter(async (currentChapter) => {
         await clearPlaybackObject(playbackObj);
@@ -65,46 +112,6 @@ export const PlayerProvider = ({ children }) => {
     }
   }
 
-  async function trackerTriggerInterval(soundFiles) {
-    return setInterval(async () => {
-      let playbackStatus = await playbackObj.getStatusAsync();
-
-      if (playbackStatus.durationMillis === playbackStatus.positionMillis) {
-        await skipChapter(soundFiles);
-      }
-
-      setAudioStats(playbackStatus);
-    }, 1000);
-  }
-
-  async function initAudioSystem(soundFiles) {
-    await checkIfAlreadyHaveAnAudioBeenPlaying(playbackObj, trackerTimer);
-    await loadAudioAsync(soundFiles[0]);
-
-    setAudioFiles(soundFiles);
-
-    let trackerTimer = trackerTriggerInterval(soundFiles);
-  }
-
-  async function loadAudioAsync(audio) {
-    let audioObject = await playbackObj.loadAsync({ uri: audio.uri });
-
-    setCurrentChapter(audio);
-    setAudioStats(audioObject);
-  }
-
-  async function onDraggingTrackerBarAudio(millis) {
-    await playbackObj.setPositionAsync(millis);
-  }
-
-  async function NextChapter() {
-    await skipChapter(audioFiles);
-  }
-
-  async function PrevChapter() {
-    await backChapter(audioFiles);
-  }
-
   async function playAudioAsync() {
     audioStats.isPlaying
       ? setAudioStats(await playbackObj.setStatusAsync({ shouldPlay: false }))
@@ -118,8 +125,8 @@ export const PlayerProvider = ({ children }) => {
         playAudioAsync,
         audioStats,
         currentChapter,
-        NextChapter,
-        PrevChapter,
+        skipChapter,
+        backChapter,
         onDraggingTrackerBarAudio,
       }}
     >
