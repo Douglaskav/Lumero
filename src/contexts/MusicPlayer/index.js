@@ -68,6 +68,8 @@ export const PlayerProvider = ({ children }) => {
   }
 
   async function NextChapter(soundFiles) {
+    console.log(soundFiles.length, currentChapter.cap);
+    if (currentChapter.cap !== soundFiles.length) {
     setCurrentChapter(async (currentChapter) => {
       await clearPlaybackObject(playbackObj);
 
@@ -85,6 +87,10 @@ export const PlayerProvider = ({ children }) => {
     });
 
     return;
+    } else {
+      alert("Você chegou ao fim do livro");
+      return;
+    }
   }
 
   async function PrevChapter(soundFiles) {
