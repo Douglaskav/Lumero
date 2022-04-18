@@ -19,8 +19,8 @@ export const PlayerProvider = ({ children }) => {
   const [playbackObj, setPlaybackObj] = useState({});
   const [audioStats, setAudioStats] = useState({});
   const [currentChapter, setCurrentChapter] = useState({});
-  const [audioFiles, setAudioFiles] = useState([]);
 
+  let audioFiles = useRef();
   let timer = useRef();
 
   useEffect(() => {
@@ -29,11 +29,12 @@ export const PlayerProvider = ({ children }) => {
   }, []);
 
   async function initAudioSystem(soundFiles) {
-    await checkIfAlreadyHaveAnAudioBeenPlaying(playbackObj, timer);
-    await loadAudioAsync(soundFiles[0]);
+    audioFiles.current = soundFiles;
 
-    timer.current = await trackerTriggerInterval(soundFiles);
-    setAudioFiles(soundFiles);
+    await checkIfAlreadyHaveAnAudioBeenPlaying(playbackObj, timer);
+    await loadAudioAsync(audioFiles.current[0]);
+
+    timer.current = await trackerTriggerInterval();
   }
 
   async function loadAudioAsync(audio) {
@@ -43,12 +44,12 @@ export const PlayerProvider = ({ children }) => {
     setAudioStats(audioObject);
   }
 
-  async function trackerTriggerInterval(soundFiles) {
+  async function trackerTriggerInterval() {
     return setInterval(async () => {
       let playbackStatus = await playbackObj.getStatusAsync();
 
       if (playbackStatus.durationMillis === playbackStatus.positionMillis) {
-        await NextChapter(soundFiles);
+        await skipChapter();
       }
 
       setAudioStats(playbackStatus);
@@ -60,45 +61,36 @@ export const PlayerProvider = ({ children }) => {
   }
 
   async function skipChapter() {
-    await NextChapter(audioFiles);
-  }
+    if (currentChapter.cap !== audioFiles.current.length) {
+      setCurrentChapter(async (currentChapter) => {
+        await clearPlaybackObject(playbackObj);
 
-  async function backChapter() {
-    await PrevChapter(audioFiles);
-  }
+        let new_chapter = audioFiles.current[currentChapter.cap];
 
-  async function NextChapter(soundFiles) {
-    console.log(soundFiles.length, currentChapter.cap);
-    if (currentChapter.cap !== soundFiles.length) {
-    setCurrentChapter(async (currentChapter) => {
-      await clearPlaybackObject(playbackObj);
+        if (new_chapter) {
+          let audioObject = await playbackObj.loadAsync(
+            { uri: new_chapter.uri },
+            { shouldPlay: true }
+          );
 
-      let new_chapter = soundFiles[currentChapter.cap];
+          setAudioStats(audioObject);
+          setCurrentChapter(new_chapter);
+        }
+      });
 
-      if (new_chapter) {
-        let audioObject = await playbackObj.loadAsync(
-          { uri: new_chapter.uri },
-          { shouldPlay: true }
-        );
-
-        setAudioStats(audioObject);
-        setCurrentChapter(new_chapter);
-      }
-    });
-
-    return;
+      return;
     } else {
       alert("Você chegou ao fim do livro");
       return;
     }
   }
 
-  async function PrevChapter(soundFiles) {
+  async function backChapter() {
     if (currentChapter.cap > 1) {
       setCurrentChapter(async (currentChapter) => {
         await clearPlaybackObject(playbackObj);
 
-        let new_chapter = soundFiles[currentChapter.cap - 2];
+        let new_chapter = audioFiles.current[currentChapter.cap - 2];
 
         if (new_chapter) {
           let audioObject = await playbackObj.loadAsync(
