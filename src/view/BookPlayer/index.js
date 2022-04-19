@@ -18,6 +18,8 @@ import axios from "../../services/api";
 import globalStyles from "../../styles/";
 import styles from "./styles";
 
+import Shimmer from "../../components/Shimmer";
+
 import { usePlayer } from "../../contexts/MusicPlayer";
 
 import millisToMinutesAndSeconds from "../../helpers/MillisToMinutesAndSeconds";
@@ -28,13 +30,13 @@ export default BookPlayer = ({ route, navigation }) => {
     playAudioAsync,
     audioStats,
     currentChapter,
-    skipChapter,
-    backChapter,
+    NextChapter,
+    PrevChapter,
     onDraggingTrackerBarAudio,
   } = usePlayer();
 
   const [book, setBook] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   const { itemId } = route.params;
 
@@ -46,13 +48,11 @@ export default BookPlayer = ({ route, navigation }) => {
 
       setBook(response.data);
       await initAudioSystem(audioFiles);
-      setLoading(false);
+      setIsVisible(true);
     }
 
     getBookById();
   }, []);
-
-  if (loading) return <ActivityIndicator size="large" color="#666" />;
 
   return (
     <ScrollView
@@ -72,65 +72,109 @@ export default BookPlayer = ({ route, navigation }) => {
         </View>
 
         <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Image
-            source={{ uri: book.cover }}
-            style={styles.bookCover}
-            resizeMode="stretch"
-          />
+          <Shimmer
+            autoRun={true}
+            style={{ width: 230, height: 350 }}
+            visible={isVisible}
+          >
+            <Image
+              source={{ uri: book.cover }}
+              style={styles.bookCover}
+              resizeMode="stretch"
+            />
+          </Shimmer>
         </View>
 
         <View style={styles.bookTitleAndAuthorContainer}>
-          <Text style={styles.bookTitle}>{book.title}</Text>
-          <Text style={styles.bookAuthor}>
-            {book.author} | Capitulo {currentChapter.cap}
-          </Text>
+          <Shimmer autoRun={true} style={styles.bookTitle} visible={isVisible}>
+            <Text style={styles.bookTitle}>{book.title}</Text>
+          </Shimmer>
+          <Shimmer autoRun={true} style={styles.bookAuthor} visible={isVisible}>
+            <Text style={styles.bookAuthor}>
+              {book.author} | Capitulo {currentChapter.cap}
+            </Text>
+          </Shimmer>
         </View>
 
         <View style={styles.trackContainer}>
-          <Slider
-            style={{ width: 320, height: 40 }}
-            minimumValue={0}
-            value={audioStats.positionMillis}
-            maximumValue={audioStats.durationMillis}
-            onValueChange={(millis) => onDraggingTrackerBarAudio(millis)}
-            minimumTrackTintColor="#3066FF"
-            thumbTintColor="#3066FF"
-            maximumTrackTintColor="#AAAAAA"
-          />
+          <Shimmer
+            autoRun={true}
+            style={{ width: 320, height: 10 }}
+            visible={isVisible}
+          >
+            <Slider
+              style={{ width: 320, height: 40 }}
+              minimumValue={0}
+              value={audioStats.positionMillis}
+              maximumValue={audioStats.durationMillis}
+              onValueChange={(millis) => onDraggingTrackerBarAudio(millis)}
+              minimumTrackTintColor="#3066FF"
+              thumbTintColor="#3066FF"
+              maximumTrackTintColor="#AAAAAA"
+            />
+          </Shimmer>
           <View style={styles.trackInfoContainer}>
+            <Shimmer style={{marginTop: 15, width: 30, height: 10}} visible={isVisible}>
             <Text style={styles.trackCurrentTime}>
               {millisToMinutesAndSeconds(audioStats.positionMillis)}
             </Text>
+            </Shimmer>
+            <Shimmer style={{marginTop: 15, width: 30, height: 10}} visible={isVisible}>
             <Text style={styles.trackLeftTime}>
               {millisToMinutesAndSeconds(audioStats.durationMillis)}
             </Text>
+            </Shimmer>
           </View>
         </View>
 
         <View style={styles.playerContainer}>
-          <TouchableOpacity onPress={backChapter}>
-            <AntDesign name="fastbackward" size={24} color="#3066FF" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={playAudioAsync}>
-            {audioStats.isPlaying ? (
-              <AntDesign
-                name="pausecircle"
-                size={48}
-                color="#3066FF"
-                style={{ marginLeft: 20, marginRight: 20 }}
-              />
-            ) : (
-              <AntDesign
-                name="play"
-                size={48}
-                color="#3066FF"
-                style={{ marginLeft: 20, marginRight: 20 }}
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity onPress={skipChapter}>
-            <AntDesign name="fastforward" size={24} color="#3066FF" />
-          </TouchableOpacity>
+          <Shimmer
+            autoRun={true}
+            style={{ width: 28, height: 28 }}
+            visible={isVisible}
+          >
+            <TouchableOpacity onPress={PrevChapter}>
+              <AntDesign name="fastbackward" size={24} color="#3066FF" />
+            </TouchableOpacity>
+          </Shimmer>
+          <Shimmer
+            autoRun={true}
+            style={{
+              width: 45,
+              height: 45,
+              borderRadius: 100,
+              marginLeft: 15,
+              marginRight: 15,
+            }}
+            visible={isVisible}
+          >
+            <TouchableOpacity onPress={playAudioAsync}>
+              {audioStats.isPlaying ? (
+                <AntDesign
+                  name="pausecircle"
+                  size={48}
+                  color="#3066FF"
+                  style={{ marginLeft: 20, marginRight: 20 }}
+                />
+              ) : (
+                <AntDesign
+                  name="play"
+                  size={48}
+                  color="#3066FF"
+                  style={{ marginLeft: 20, marginRight: 20 }}
+                />
+              )}
+            </TouchableOpacity>
+          </Shimmer>
+          <Shimmer
+            autoRun={true}
+            style={{ width: 28, height: 28 }}
+            visible={isVisible}
+          >
+            <TouchableOpacity onPress={NextChapter}>
+              <AntDesign name="fastforward" size={24} color="#3066FF" />
+            </TouchableOpacity>
+          </Shimmer>
         </View>
       </View>
     </ScrollView>

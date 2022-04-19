@@ -15,7 +15,7 @@ import BookItem from "../BookItem";
 import styles from "./styles";
 
 export default BookList = ({ topicTitle }) => {
-  const [loading, setLoading] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [bookList, setBookList] = useState([]);
 
   useEffect(() => {
@@ -23,15 +23,15 @@ export default BookList = ({ topicTitle }) => {
       let response = await axios.get("book/list");
 
       setBookList(response.data);
-      setLoading(false);
+      setIsVisible(true);
     }
 
     getBookDataList();
   }, []);
 
-  if (loading) return <ActivityIndicator size="large" color="#666" />;
-
-  const renderItem = ({ item }) => <BookItem book={item} />;
+  const renderItem = ({ item }) => (
+    <BookItem book={item} isVisible={isVisible} />
+  );
 
   return (
     <View>

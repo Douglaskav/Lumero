@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   bookItem: {
-    marginRight: 15,
+  marginRight: 15
   },
 
   bookCover: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   bookTitle: {
     color: "#333",
     fontSize: 12,
-    maxWidth: 100,
+    maxWidth: 90,
     marginTop: 6,
     fontFamily: "NunitoSans_800ExtraBold",
   },
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "#AAA",
     fontFamily: "NunitoSans_400Regular",
-    maxWidth: 100
+    maxWidth: 90
   },
 });
 

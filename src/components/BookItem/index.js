@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import styles from "./styles";
 
-export default BookItem = ({ book }) => {
+export default BookItem = ({ book, isVisible }) => {
   const navigation = useNavigation();
 
   return (

@@ -14,6 +14,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
+  bookCover: {
+    width: 145,
+    height: 220,
+    borderRadius: 5
+  },
+
   bookTitle: {
     fontFamily: "NunitoSans_700Bold",
     fontSize: fontSize(16),
