@@ -69,6 +69,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  topicLink: {
+    marginTop: 20,
+    alignSelf: "center",
+    fontFamily: "NunitoSans_700Bold",
+    fontSize: 14,
+    color: "#3066FF",
+  },
 });
 
 export default styles;

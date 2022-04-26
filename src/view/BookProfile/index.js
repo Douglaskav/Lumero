@@ -24,7 +24,7 @@ import Reviews from "../../components/Reviews";
 
 const BookProfile = ({ route, navigation }) => {
   const [book, setBook] = useState([]);
-  const loading = useRef(true);
+  const [loading, setLoading] = useState(true);
   const { itemId } = route.params;
 
   useEffect(() => {
@@ -37,12 +37,13 @@ const BookProfile = ({ route, navigation }) => {
       response.data.categories = strWithoutBrackendAndComas.split(" ");
 
       setBook(response.data);
-      loading.current = false;
+      setLoading(false);
     }
 
-    console.log(loading);
     getBookById();
   }, []);
+
+  if (loading) return <ActivityIndicator size="large" color="#666" />
 
   return (
     <ScrollView style={{ backgroundColor: "#FFF" }}>
@@ -59,13 +60,13 @@ const BookProfile = ({ route, navigation }) => {
       </SafeAreaView>
       <View style={styles.containerThumbTitleAuthor}>
         <Text>{loading.current}</Text>
-          <Image
-            source={{ uri: book.cover }}
-            style={styles.bookCover}
-            resizeMode="stretch"
-          />
-          <Text style={styles.bookTitle}>{book.title}</Text>
-          <Text style={styles.bookAuthor}>{book.author}</Text>
+        <Image
+          source={{ uri: book.cover }}
+          style={styles.bookCover}
+          resizeMode="stretch"
+        />
+        <Text style={styles.bookTitle}>{book.title}</Text>
+        <Text style={styles.bookAuthor}>{book.author}</Text>
       </View>
 
       <View style={styles.bookInfoNumbers}>
@@ -117,9 +118,18 @@ const BookProfile = ({ route, navigation }) => {
           {book.synopsis}
         </Text>
 
+        <View style={styles.categories}>
+          {book.categories.map((item, index) => {
+            return (
+              <View style={styles.categorie} key={index}>
+                <Text style={styles.categorieText}>{item}</Text>
+              </View>
+            );
+          })}
+        </View>
       </View>
 
-      <Reviews />
+      <Reviews reviews={book.Reviews} />
     </ScrollView>
   );
 };

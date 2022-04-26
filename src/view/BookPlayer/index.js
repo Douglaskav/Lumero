@@ -114,15 +114,21 @@ export default BookPlayer = ({ route, navigation }) => {
             />
           </Shimmer>
           <View style={styles.trackInfoContainer}>
-            <Shimmer style={{marginTop: 15, width: 30, height: 10}} visible={isVisible}>
-            <Text style={styles.trackCurrentTime}>
-              {millisToMinutesAndSeconds(audioStats.positionMillis)}
-            </Text>
+            <Shimmer
+              style={{ marginTop: 15, width: 30, height: 10 }}
+              visible={isVisible}
+            >
+              <Text style={styles.trackCurrentTime}>
+                {millisToMinutesAndSeconds(audioStats.positionMillis)}
+              </Text>
             </Shimmer>
-            <Shimmer style={{marginTop: 15, width: 30, height: 10}} visible={isVisible}>
-            <Text style={styles.trackLeftTime}>
-              {millisToMinutesAndSeconds(audioStats.durationMillis)}
-            </Text>
+            <Shimmer
+              style={{ marginTop: 15, width: 30, height: 10 }}
+              visible={isVisible}
+            >
+              <Text style={styles.trackLeftTime}>
+                {millisToMinutesAndSeconds(audioStats.durationMillis)}
+              </Text>
             </Shimmer>
           </View>
         </View>
