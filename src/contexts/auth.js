@@ -43,9 +43,9 @@ export const AuthProvider = ({ children }) => {
     const response = await axios.post("user/auth", { email, password });
 
     if (!response.data?.error) {
-      const { email, username } = response.data.user;
+      const { email, username, id } = response.data.user;
 
-      let newUser = { email, username };
+      let newUser = { id, email, username, token: response.data.token };
 
       setUser(newUser);
 
@@ -63,9 +63,10 @@ export const AuthProvider = ({ children }) => {
     });
 
     if (!response.data?.error) {
-      const { email, username } = response.data;
+      const { email, username, id } = response.data;
+      const authUser = await axios.post("user/auth", { email, password });
 
-      let newUser = { email, username };
+      let newUser = { id, email, username, token: authUser.data.token };
 
       setUser(newUser);
 

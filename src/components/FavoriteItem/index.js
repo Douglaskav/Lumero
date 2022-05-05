@@ -3,13 +3,13 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 import { Feather, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 
-export default FavoriteItem = () => {
+export default FavoriteItem = ({ book }) => {
 	return (
 		<View style={styles.container}>
-			<Image source={Cover} style={styles.bookCover} />
+			<Image source={{ uri: book.cover}} style={styles.bookCover} resizeMode="stretch" />
 			<View style={styles.bookInfo}>
 				<View style={{ flexDirection: "row" }}>
-					<Text style={styles.bookTitle}>Thinking, fast and slow</Text>
+					<Text style={styles.bookTitle}>{book.title}</Text>
 					<View style={{ marginLeft: 10, flexDirection: "row" }}>
 						<FontAwesome
 							name="star"
@@ -31,7 +31,7 @@ export default FavoriteItem = () => {
 					</View>
 				</View>
 
-				<Text style={styles.bookAuthor}>Daniel Kahneman</Text>
+				<Text style={styles.bookAuthor}>{book.author}</Text>
 				<View style={styles.contentInfo}>
 					<FontAwesome5
 						name="book"
@@ -39,18 +39,14 @@ export default FavoriteItem = () => {
 						color="#0E091B"
 						style={{ marginRight: 5 }}
 					/>
-					<Text style={styles.contentInfoText}>879 Pages</Text>
+					<Text style={styles.contentInfoText}>{book.pages}</Text>
 					<FontAwesome5
 						name="headphones"
 						size={12}
 						color="#0E091B"
 						style={{ marginRight: 5 }}
 					/>
-					<Text style={styles.contentInfoText}>3:39:49</Text>
-				</View>
-
-				<View style={styles.progress}>
-					<Text style={styles.progressText}>100% Complete</Text>
+					<Text style={styles.contentInfoText}>{book.time}</Text>
 				</View>
 			</View>
 		</View>
@@ -69,6 +65,7 @@ const styles = StyleSheet.create({
 	bookCover: {
 		width: 60,
 		height: 90,
+		borderRadius: 5
 	},
 
 	bookInfo: {
