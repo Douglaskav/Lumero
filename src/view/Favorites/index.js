@@ -27,6 +27,7 @@ export default FavoritesScreen = ({ navigation }) => {
 			<View style={styles.container}>
 				{books.map((book) => (
 					<TouchableOpacity
+						key={book.id}
 						onPress={() =>
 							navigation.navigate("BookProfile", {
 								itemId: book.id,

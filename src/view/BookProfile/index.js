@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   SafeAreaView,
@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 
-import axios from "../../services/api";
+import { useAuth } from "../../contexts/auth";
+import api from "../../services/api";
 
 import globalStyles from "../../styles/";
 import styles from "./styles";
@@ -23,13 +24,14 @@ import Reviews from "../../components/Reviews";
 // Aparecer um loading
 
 const BookProfile = ({ route, navigation }) => {
+  const { user } = useAuth();
   const [book, setBook] = useState([]);
   const [loading, setLoading] = useState(true);
   const { itemId } = route.params;
 
   useEffect(() => {
     async function getBookById() {
-      let response = await axios.get(`book/profile/${itemId}`);
+      let response = await api.get(`book/profile/${itemId}`);
       let strWithoutBrackendAndComas = response.data.categories.replace(
         /[^\w ]/g,
         ""
@@ -43,7 +45,12 @@ const BookProfile = ({ route, navigation }) => {
     getBookById();
   }, []);
 
-  if (loading) return <ActivityIndicator size="large" color="#666" />
+  async function handleFavoritedBook(BookId) {
+    await api.post(`user/addFavoriteBook`, { UserId: user.id, BookId });
+    navigation.navigate(`Favorites`);    
+  }
+
+  if (loading) return <ActivityIndicator size="large" color="#666" />;
 
   return (
     <ScrollView style={{ backgroundColor: "#FFF" }}>
@@ -107,7 +114,14 @@ const BookProfile = ({ route, navigation }) => {
           iconName="play"
         />
         <View style={{ marginLeft: 5, marginRight: 5 }} />
-        <Button text="Favoritar" backgroundColor="#4274FE" iconName="heart" />
+        <Button
+          onPress={() => {
+            handleFavoritedBook(book.id);
+          }}
+          text="Favoritar"
+          backgroundColor="#4274FE"
+          iconName="heart"
+        />
       </View>
 
       <View style={styles.separator} />
