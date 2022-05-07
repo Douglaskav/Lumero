@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { View, ScrollView, Text, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
@@ -12,15 +13,19 @@ export default FavoritesScreen = ({ navigation }) => {
 	const { user } = useAuth();
 	let [books, setBooks] = useState([]);
 
-	useEffect(() => {
-		async function getBookById() {
-			let response = await api.get(`user/favoriteBooks/${user.id}`);
+	useFocusEffect(
+		React.useCallback(() => {
+			async function getBookById() {
+				let response = await api.get(`user/favoriteBooks/${user.id}`);
 
-			setBooks(response.data.favorites_books);
-		}
+				if (response?.data) {
+					setBooks(response.data.favorites_books);
+				}
+			}
 
-		getBookById();
-	}, []);
+			getBookById();
+		}, [])
+	);
 
 	return (
 		<ScrollView style={{ backgroundColor: "#FFF" }}>

@@ -46,8 +46,19 @@ const BookProfile = ({ route, navigation }) => {
   }, []);
 
   async function handleFavoritedBook(BookId) {
+    let userFav = await api.get(`user/favoriteBooks/${user.id}`);
+
+    console.log(userFav.data);
+
+    for (let i = 0; i < userFav.data.favorites_books.length; i++) {
+      if (userFav.data.favorites_books[i].id === BookId) {
+        alert("O livro já está no seus favoritos");
+        return;
+      }
+    }
+
     await api.post(`user/addFavoriteBook`, { UserId: user.id, BookId });
-    navigation.navigate(`Favorites`);    
+    navigation.navigate(`Favorites`);
   }
 
   if (loading) return <ActivityIndicator size="large" color="#666" />;

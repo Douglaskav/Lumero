@@ -46,8 +46,8 @@ export default BookPlayer = ({ route, navigation }) => {
 
       let audioFiles = JSON.parse(response.data.audio_files);
 
-      setBook(response.data);
       await initAudioSystem(audioFiles);
+      setBook(response.data);
       setIsVisible(true);
     }
 
