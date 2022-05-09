@@ -32,7 +32,6 @@ const HomeTabs = () => (
       },
       tabBarActiveTintColor: "#4274FE",
       tabBarInactiveTintColor: "#0E091B",
-      tabBarShowLabel: false,
       headerShown: false,
     })}
   >

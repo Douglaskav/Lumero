@@ -43,10 +43,8 @@ export default Profile = () => {
       </View>
 
       <View style={{ margin: 30 }}>
-        <BookList topicTitle="Ultimos Livros" />
+        <BookList topicTitle="Livros Favoritos" />
       </View>
-
-      <Reviews />
     </ScrollView>
   );
 };
