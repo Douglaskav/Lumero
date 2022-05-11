@@ -30,6 +30,16 @@ const styles = StyleSheet.create({
 		color: "#666",
 	},
 
+	topicTitle: {
+		fontFamily: "NunitoSans_700Bold",
+		fontSize: 18,
+		maxWidth: 150,
+		color: "#0E091B",
+		marginBottom: 12,
+	},
+
+
+
 	inputIcon: {
 		marginRight: 15,
 	},

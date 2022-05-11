@@ -42,6 +42,7 @@ const Reviews = ({ reviews }) => {
                   <View style={styles.usernameAndStars}>
                     <Text style={styles.username}>{review.User.username}</Text>
                     <Stars reviewValue={review.stars} />
+                    <Text>{review.Book.title}</Text>
                   </View>
                 </View>
                 <View style={styles.reviewBody}>

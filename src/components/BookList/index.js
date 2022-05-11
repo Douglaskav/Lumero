@@ -9,20 +9,30 @@ import {
   ActivityIndicator,
 } from "react-native";
 
+import { useAuth } from "../../contexts/auth";
 import axios from "../../services/api";
 
 import BookItem from "../BookItem";
 import styles from "./styles";
 
-export default BookList = ({ topicTitle }) => {
+export default BookList = ({ topicTitle, favorites = false }) => {
+  const { user } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
   const [bookList, setBookList] = useState([]);
 
   useEffect(() => {
     async function getBookDataList() {
-      let response = await axios.get("book/list");
+      let response;
 
+      if (favorites) {
+        response = await axios.get(`user/favoriteBooks/${user.id}`);
+      setBookList(response.data.favorites_books);
+    
+      } else {
+        response = await axios.get("book/list");
       setBookList(response.data);
+      }
+
       setIsVisible(true);
     }
 
