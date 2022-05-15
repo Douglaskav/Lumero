@@ -13,8 +13,6 @@ import Slider from "@react-native-community/slider";
 
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
-import axios from "../../services/api";
-
 import globalStyles from "../../styles/";
 import styles from "./styles";
 
@@ -26,7 +24,7 @@ import millisToMinutesAndSeconds from "../../helpers/MillisToMinutesAndSeconds";
 
 export default BookPlayer = ({ route, navigation }) => {
   const {
-    initAudioSystem,
+    getAudioFiles,
     playAudioAsync,
     audioStats,
     currentChapter,
@@ -41,17 +39,13 @@ export default BookPlayer = ({ route, navigation }) => {
   const { itemId } = route.params;
 
   useEffect(() => {
-    async function getBookById() {
-      let response = await axios.get(`book/profile/${itemId}`);
-
-      let audioFiles = JSON.parse(response.data.audio_files);
-
-      await initAudioSystem(audioFiles);
-      setBook(response.data);
+    async function startBook() {
+      let book = await getAudioFiles(itemId);
+      setBook(book);
       setIsVisible(true);
     }
 
-    getBookById();
+    startBook();
   }, []);
 
   return (

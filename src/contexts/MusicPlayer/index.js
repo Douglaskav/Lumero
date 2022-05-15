@@ -11,6 +11,7 @@ import {
   clearPlaybackObject,
 } from "./modules";
 
+import axios from "../../services/api";
 import { Audio } from "expo-av";
 
 const PlayerContext = createContext({});
@@ -22,11 +23,25 @@ export const PlayerProvider = ({ children }) => {
 
   let audioFiles = useRef();
   let trackerTimer = useRef();
+  let currentBookId = useRef();
 
   useEffect(() => {
     let playbackObject = new Audio.Sound();
     setPlaybackObj(playbackObject);
   }, []);
+
+  async function getAudioFiles(id) {
+    let response = await axios.get(`book/profile/${id}`);
+    let audioFiles = JSON.parse(response.data.audio_files);
+
+    if (id === currentBookId.current) { 
+        return response.data;
+    }
+
+    await initAudioSystem(audioFiles);
+    currentBookId.current = response.data.id;
+    return response.data;
+  }
 
   async function initAudioSystem(soundFiles) {
     audioFiles.current = soundFiles;
@@ -110,7 +125,7 @@ export const PlayerProvider = ({ children }) => {
   return (
     <PlayerContext.Provider
       value={{
-        initAudioSystem,
+        getAudioFiles,
         playAudioAsync,
         audioStats,
         currentChapter,
