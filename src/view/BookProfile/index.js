@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   ScrollView,
   SafeAreaView,
@@ -28,6 +28,7 @@ const BookProfile = ({ route, navigation }) => {
   const [book, setBook] = useState([]);
   const [loading, setLoading] = useState(true);
   const { itemId } = route.params;
+  let ItAnFavoritedBook = useRef();
 
   useEffect(() => {
     async function getBookById() {
@@ -42,17 +43,28 @@ const BookProfile = ({ route, navigation }) => {
       setLoading(false);
     }
 
+    async function checkIfTheBookIsFavorited() {
+      let userFav = await api.get(`user/favoriteBooks/${user.id}`);
+
+      for (let i = 0; i < userFav.data.favorites_books.length; i++) {
+        if (userFav.data.favorites_books[i].id === itemId) {
+          ItAnFavoritedBook.current = true;
+          return;
+        }
+      }
+
+      ItAnFavoritedBook.current = false;
+      return;
+    }
+
     getBookById();
+    checkIfTheBookIsFavorited();
   }, []);
 
   async function handleFavoritedBook(BookId) {
-    let userFav = await api.get(`user/favoriteBooks/${user.id}`);
-
-    for (let i = 0; i < userFav.data.favorites_books.length; i++) {
-      if (userFav.data.favorites_books[i].id === BookId) {
-        alert("O livro já está no seus favoritos");
-        return;
-      }
+    if (ItAnFavoritedBook.current) {
+      alert("O livro já está na sua lista de favoritos");
+      return;
     }
 
     await api.post(`user/addFavoriteBook`, { UserId: user.id, BookId });
@@ -123,14 +135,26 @@ const BookProfile = ({ route, navigation }) => {
           iconName="play"
         />
         <View style={{ marginLeft: 5, marginRight: 5 }} />
-        <Button
-          onPress={() => {
-            handleFavoritedBook(book.id);
-          }}
-          text="Favoritar"
-          backgroundColor="#4274FE"
-          iconName="heart"
-        />
+
+        {ItAnFavoritedBook.current ? (
+          <Button
+            onPress={() => {
+              handleFavoritedBook(book.id);
+            }}
+            text="Unfavorite"
+            backgroundColor="#4274FE"
+            iconName="heart"
+          />
+        ) : (
+          <Button
+            onPress={() => {
+              handleFavoritedBook(book.id);
+            }}
+            text="Favorite"
+            backgroundColor="#4274FE"
+            iconName="hearto"
+          />
+        )}
       </View>
 
       <View style={styles.separator} />

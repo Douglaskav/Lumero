@@ -6,18 +6,25 @@ import { Feather, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 export default FavoriteItem = ({ book }) => {
 	return (
 		<View style={styles.container}>
-			<Image source={{ uri: book.cover}} style={styles.bookCover} resizeMode="stretch" />
+			<Image
+				source={{ uri: book.cover }}
+				style={styles.bookCover}
+				resizeMode="stretch"
+			/>
 			<View style={styles.bookInfo}>
-				<View style={{ flexDirection: "row" }}>
+				<View style={styles.bookButtons}>
 					<Text style={styles.bookTitle}>{book.title}</Text>
-					<View style={{ marginLeft: 10, flexDirection: "row" }}>
-						<FontAwesome
-							name="star"
-							size={12}
-							color="#FBAA1F"
-							style={{ marginRight: 5 }}
-						/>
-						<Text style={styles.starText}>4.6</Text>
+
+					<View style={{ flexDirection: "row" }}>
+						<View style={{ flexDirection: "row" }}>
+							<FontAwesome
+								name="star"
+								size={12}
+								color="#FBAA1F"
+								style={{ marginRight: 5 }}
+							/>
+							<Text style={styles.starText}>4.6</Text>
+						</View>
 						<Feather
 							name="download"
 							size={12}
@@ -65,11 +72,16 @@ const styles = StyleSheet.create({
 	bookCover: {
 		width: 60,
 		height: 90,
-		borderRadius: 5
+		borderRadius: 5,
 	},
 
 	bookInfo: {
 		marginLeft: 5,
+	},
+
+	bookButtons: {
+		flexDirection: "row",
+		alignItems: "center",
 	},
 
 	contentInfo: {

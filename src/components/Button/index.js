@@ -28,12 +28,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		height: 40,
 		color: "#fff",
+	marginBottom: 20,
 		borderRadius: 5,
 		borderTopStartRadius: 0,
 		borderBottomStartRadius: 0,
-		marginBottom: 20,
+		justifyContent: "center",
 		alignItems: "center",
-		padding: 10,
+		paddingLeft: 5
 	},
 
 	iconContainer: {

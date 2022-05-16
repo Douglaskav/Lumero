@@ -30,7 +30,7 @@ const Reviews = ({ reviews }) => {
         horizontal
         style={styles.reviewsWrapper}
       >
-        {reviews.map((review, index) => {
+        {reviews && reviews.map((review, index) => {
           return (
             <View key={index} style={styles.reviewsWrapper}>
               <View style={styles.reviewContainer}>
@@ -42,7 +42,7 @@ const Reviews = ({ reviews }) => {
                   <View style={styles.usernameAndStars}>
                     <Text style={styles.username}>{review.User.username}</Text>
                     <Stars reviewValue={review.stars} />
-                    <Text>{review.Book.title}</Text>
+                    <Text>{review.title}</Text>
                   </View>
                 </View>
                 <View style={styles.reviewBody}>
