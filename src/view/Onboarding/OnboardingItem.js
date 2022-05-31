@@ -10,11 +10,17 @@ const scale = width / 320;
 export default OnboardingItem = ({ item }) => {
 	return (
 		<SafeAreaView style={styles.container}>
+			<View style={{ flex: 0.2}}>
 			<Image source={Logo} style={styles.logo} />
+			</View>
 
-			<Image source={item.image} style={styles.image} />
+			<View
+				style={{ flex: 0.5, justifyContent: "center", alignItems: "center" }}
+			>
+				<Image source={item.image} style={styles.image} />
+			</View>
 
-			<View style={{ marginLeft: 25, marginRight: 25 }}>
+			<View style={styles.onboardingItemInfoContainer}>
 				<Text style={styles.title}>{item.title}</Text>
 				<Text style={styles.subtitle}>{item.subtitle}</Text>
 			</View>
@@ -31,13 +37,19 @@ const styles = StyleSheet.create({
 
 	logo: {
 		position: "absolute",
-		top: 80,
+		top: 90,
 		alignSelf: "center",
 	},
 
 	image: {
 		marginTop: height * 0.1,
 		marginBottom: height * 0.095,
+	},
+
+	onboardingItemInfoContainer: {
+		marginLeft: 25,
+		marginRight: 25,
+		flex: 0.3,
 	},
 
 	title: {
